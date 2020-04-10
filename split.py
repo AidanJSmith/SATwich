@@ -1,2 +1,15 @@
-from pdf2image import convert_from_path #https://stackoverflow.com/questions/46184239/extract-a-page-from-a-pdf-as-a-jpeg
-pages = convert_from_path('./data/example.pdf', 500)
+import fitz
+import sys
+pdffile = "./data/example.pdf"
+doc = fitz.open(pdffile)
+page = doc.loadPage(15) #number of page
+
+print(page.getText())
+#for page in doc:
+    #print(page.getText())
+    
+""" Code for writing images, to be used later
+pix = page.getPixmap()
+output = "./images/output.png"
+pix.writePNG(output)
+"""

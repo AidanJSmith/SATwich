@@ -1,4 +1,4 @@
 # PDF Parser
  
 # Requirements
- - pdf2image
+ - PyMuPDF (pip install PyMuPDF)
