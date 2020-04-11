@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import fitz
 import sys
 import re
@@ -13,6 +14,12 @@ Steps:
     Split it into text portions and questions portions. Put them under test "directories" in a big JSON.
     
     Figure out some way to parse inline numbers. I.e: 12 bird. This was a bird that was... (see page 22 of the PDF)
+    
+    
+    To-Do: 🍞🧀🥓🍅🥬🍞
+      Further parsing on the actual text to cut out the two question idiosyncrasy of the regexes.
+      Retrieve answers.
+      Writing section, math w/ calc, math w/out calc
 """
 
 
@@ -43,7 +50,8 @@ def parse_reading(start, end):
     reading_pages = pages[start:end]
     reading = {}
     # reading.update(section : passage : [ "",{ qnumber : [question,answer]}])
-    currentpassage = currentquestion = 0
+    currentpassage = 0
+    currentquestion = 1
     searching_question = False
                     
         #So, I *think* questions are going to look like questionNum\n\n\n?
@@ -56,7 +64,6 @@ def parse_reading(start, end):
                 page = page.split(keyword)[1]   # Remove the bits before the reading passage
                 # Increment passage & question
                 currentpassage += 1
-                currentquestion += 1
                 # Add the passage to the array and set it to the current one
                 reading.update( {str(currentpassage) : ["", {}]} )
                 #passage = reading[currentpassage][0] #I think this is the problem. You can't assign to a mem location like this in python? smh
@@ -80,12 +87,11 @@ def parse_reading(start, end):
                
  
         if (searching_question):
-            questions_on_page = re.findall("\d+[\s\S]+?D\)?[\s\S]*?\n+(?=\d)",page) #I'm a regex wizard.
-            if currentpassage==1:
-                return re.sub("[\s\S]+\n\n","sdaasd",questions_on_page[0]) #This expr needs more refining
-                #print(len(questions_on_page))
+            questions_on_page = re.findall("\d+[\s\S]+?D\)?[\s\S]*?\n+(?=\d)",page) #I'm a regex wizard.  🍞🧀🥓🍅🥬🍞
             for question in questions_on_page:
-                currentquestion+=1
+                if "Figure 1" not in question and "Figure 2" not in question and "D)" in question:
+                    reading[str(currentpassage)][1].update( {str(currentquestion) : re.sub("[\s\S]+?(?=\n{2})","",question) })
+                    currentquestion+=1
             searching_question=False
             
     return reading
@@ -104,10 +110,11 @@ for num,page in enumerate(pages):
     if("reading test" in page.lower()):
         start=num
     if("writing and language test" in page.lower()):
-        end=num-1
+        end=num
 if (start != 0 and end !=0):
    # print(parse_reading(start,end)["1"][1])
-   print(parse_reading(start,end))
+   print(parse_reading(start,end)["1"][1].keys())
+   print(parse_reading(start,end)["3"][0])
     #Qi, you there?  Anything wrong? You okay? I'm going to takea  break for a bit too, message you soon.
     
 """
