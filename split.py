@@ -69,14 +69,7 @@ def parse_reading(start, end):
                     reading[str(currentpassage)][0] += page 
 
             # If this is a page of questions following a passage:
-            elif currentpassage > 0:
-                
-                if "nigeria" in page.lower():
-                    x=re.findall("\\nA\).*\\nB\).*\\nC\).*\\nD\).*",page)
-                    if x != None:
-                        print(x)
-                        print("EE")
-                    
+            elif currentpassage > 0:    
                 # Format question and set current passage
                 formattedquestion = "\n{0}".format(currentquestion)
                 if re.search("A\).|\\n*B\).|\\n*C\).|\\n*D",page) != None:
@@ -86,27 +79,19 @@ def parse_reading(start, end):
 
                
  
-        while(searching_question and currentpassage>0):
-            if "nigeria" in page.lower():
-                print(currentquestion)
-            try:
-                start = page.index("{0}\n\n".format(currentquestion))
-            except:
-                searching_question=False
-            try:
-                index = page.index("{0}\n\n".format(currentquestion+1)) # If the next question is on this page, call recursively
-                if index != -1: 
-                    reading[currentpassage][1].update({str(currentquestion) : page[start:index] })
-                    currentquestion+=1
-            except:
-                reading[str(currentpassage)][1].update({str(currentquestion) : page[start:] })
+        if (searching_question):
+            questions_on_page = re.findall("\d+[\s\S]+?D\)?[\s\S]*?\n+(?=\d)",page) #I'm a regex wizard.
+            if currentpassage==1:
+                return re.sub("[\s\S]+\n\n","sdaasd",questions_on_page[0]) #This expr needs more refining
+                #print(len(questions_on_page))
+            for question in questions_on_page:
                 currentquestion+=1
-                searching_question=False
+            searching_question=False
+            
     return reading
     
 
     
-# I think I know.
 
 #Writing parser
 
@@ -121,7 +106,8 @@ for num,page in enumerate(pages):
     if("writing and language test" in page.lower()):
         end=num-1
 if (start != 0 and end !=0):
-    print(parse_reading(start,end)["1"][0])
+   # print(parse_reading(start,end)["1"][1])
+   print(parse_reading(start,end))
     #Qi, you there?  Anything wrong? You okay? I'm going to takea  break for a bit too, message you soon.
     
 """
