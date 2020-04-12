@@ -99,10 +99,9 @@ def parse_reading(start, end):
 #Writing parser
 def parse_writing(start, end):
     keyword = " are based on the following passage" 
-    
     writing_pages = pages[start:end]
     writing = {}
-    # writing.update(section : [ [ "",{ qnumber : [question,answer], ])
+    # writing.update(section : [ "pagenum":[text,contents])
     currentpassage = 0
     currentquestion = 1
     temp_info=""
@@ -110,34 +109,31 @@ def parse_writing(start, end):
     for page in writing_pages:
         temp_questions={}
         modpage=page
-        if keyword in page.lower():         # Start the construction for a passage start
+        if keyword in page.lower():                                                     # Start the construction for a passage start
             # Increment passage & question
             currentpassage += 1
             writing.update( {str(currentpassage) : []} )
             modpage=modpage.split(keyword)[1]
         #Find all questions on the page and append them to the current passage object
-        temp_info= re.findall("(?<!A\))[\s\S]+?\s{1}?(?=A\))",modpage)[0]
+        temp_info= re.findall("(?<!A\))[\s\S]+?\s{1}?(?=A\))",modpage)[0]               # What this regex actually does is look for parts of the page that do not have a A) preceding them, followed by only one space before an A) This captures only the passage.
         temp_info= temp_info.split("\n \n ")[0]
-        modpage=modpage.replace(temp_info,"")
-        questions_on_page = re.findall("\d+[\s\S]+?D\)?[\s\S]*?\n+(?=\d)",modpage)      
-        if len(writing[str(currentpassage)])==1 and currentpassage==1:
-            print(modpage)      
+        modpage=modpage.replace(temp_info,"")                                           # Once we've cached the passage, remove it such that we can move on to the questions.
+        modpage=str(currentquestion)+modpage                                            # Add a number at the beginning of the question, as the question parsing regex is dependent on it.
+        questions_on_page = re.findall("\d+[\s\S]+?D\)?[\s\S]*?\n+(?=\d)",modpage)      # Find all of the valid questions in the remainder of the page       
         for question in questions_on_page:
             temp_questions.update({str(currentquestion) : question })
-            modpage=modpage.replace(question,"")
             currentquestion+=1
        #  # Find the text, append it to a new page object of the current passage object
-       # print(temp_questions)
-        writing[str(currentpassage)].append([temp_info,temp_questions])
+        writing[str(currentpassage)].append([temp_info,temp_questions])                 # Write the current page to the correct passage subheader.
     return writing
         
         
         
         
 
-#Math parser
+#Math parser (Nemo's Job, lucky him)
 
-#CalcMath parser
+#CalcMath parser (Nemo's Job, lucky him)
 
 startread=startwrite=startmath=startcalc=0
 for num,page in enumerate(pages):
@@ -157,8 +153,7 @@ if (startread != 0 and startwrite !=0):
    #print(parse_reading(startread,startwrite)["3"][1].keys())
   # print(parse_reading(startread,startwrite)["5"][0])
 if (startwrite !=0 and startmath !=0):
-    print((parse_writing(startwrite,startmath)["1"][1][1]));  
-    #print((parse_writing(startwrite,startmath)["1"][0][0]));  
+    print((parse_writing(startwrite,startmath)));  
 """
 pix = page.getPixmap()
 output = "./images/output.png"
