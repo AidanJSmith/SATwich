@@ -79,44 +79,86 @@ def parse_reading(start, end):
             elif currentpassage > 0:    
                 # Format question and set current passage
                 formattedquestion = "\n{0}".format(currentquestion)
-                if re.search("A\).|\\n*B\).|\\n*C\).|\\n*D",page) != None:
-                    reading[str(currentpassage)][0] += page[:re.search("A\).|\\n*B\).|\\n*C\).|\\n*D",page).span()[0]]
+                if re.search("A\)?",page) != None:
+                    reading[str(currentpassage)][0] += page[:re.search("A\)?",page).span()[0]]
                     searching_question = True
             
 
                
  
-        if (searching_question):
-            questions_on_page = re.findall("\d+[\s\S]+?D\)?[\s\S]*?\n+(?=\d)",page) #I'm a regex wizard.  🍞🧀🥓🍅🥬🍞
+        if (searching_question):                                                                    # Use regexes to find portions that start with at least one digit (?#) and end in the line following D) 
+            questions_on_page = re.findall("\d+[\s\S]+?D\)?[\s\S]*?\n+(?=\d)",page)                 # I'm a regex wizard.  🍞🧀🥓🍅🥬🍞
             for question in questions_on_page:
-                if "Figure 1" not in question and "Figure 2" not in question and "D)" in question:
+                if "Figure 1" not in question and "Figure 2" not in question and "D)" in question:  # Ignore figures, if they split through
                     reading[str(currentpassage)][1].update( {str(currentquestion) : re.sub("[\s\S]+?(?=\n{2})","",question) })
                     currentquestion+=1
             searching_question=False
             
     return reading
     
-
-    
-
 #Writing parser
+def parse_writing(start, end):
+    keyword = " are based on the following passage" 
+    
+    writing_pages = pages[start:end]
+    writing = {}
+    # writing.update(section : [ [ "",{ qnumber : [question,answer], ])
+    currentpassage = 0
+    currentquestion = 1
+    temp_info=""
+    temp_questions={}
+    for page in writing_pages:
+        temp_questions={}
+        modpage=page
+        if keyword in page.lower():         # Start the construction for a passage start
+            # Increment passage & question
+            currentpassage += 1
+            writing.update( {str(currentpassage) : []} )
+            modpage=modpage.split(keyword)[1]
+        #Find all questions on the page and append them to the current passage object
+        temp_info= re.findall("(?<!A\))[\s\S]+?\s{1}?(?=A\))",modpage)[0]
+        temp_info= temp_info.split("\n \n ")[0]
+        modpage=modpage.replace(temp_info,"")
+        questions_on_page = re.findall("\d+[\s\S]+?D\)?[\s\S]*?\n+(?=\d)",modpage)      
+        if len(writing[str(currentpassage)])==1 and currentpassage==1:
+            print(modpage)      
+        for question in questions_on_page:
+            temp_questions.update({str(currentquestion) : question })
+            modpage=modpage.replace(question,"")
+            currentquestion+=1
+       #  # Find the text, append it to a new page object of the current passage object
+       # print(temp_questions)
+        writing[str(currentpassage)].append([temp_info,temp_questions])
+    return writing
+        
+        
+        
+        
 
 #Math parser
 
 #CalcMath parser
 
-start=end=0
+startread=startwrite=startmath=startcalc=0
 for num,page in enumerate(pages):
     if("reading test" in page.lower()):
-        start=num
+        startread=num
     if("writing and language test" in page.lower()):
-        end=num
-if (start != 0 and end !=0):
+        startwrite=num
+    if("math test" in page.lower() and "no calculator" in page.lower()):
+        startmath=num
+    elif ("math test" in page.lower() and "calculator" in page.lower()):
+        startcalc=num
+        
+if (startread != 0 and startwrite !=0):     
+   pass
+   # Need to do: trim more of these, especially the weird quirk with the passages where they get the question part of the first two questions.
    # print(parse_reading(start,end)["1"][1])
-   print(parse_reading(start,end)["1"][1].keys())
-   print(parse_reading(start,end)["3"][0])
-    #Qi, you there?  Anything wrong? You okay? I'm going to takea  break for a bit too, message you soon.
-    
+   #print(parse_reading(startread,startwrite)["3"][1].keys())
+  # print(parse_reading(startread,startwrite)["5"][0])
+if (startwrite !=0 and startmath !=0):
+    print((parse_writing(startwrite,startmath)["1"][1][1]));  
+    #print((parse_writing(startwrite,startmath)["1"][0][0]));  
 """
 pix = page.getPixmap()
 output = "./images/output.png"
