@@ -25,7 +25,7 @@ Steps:
 
 questions = dict() # Fix this constructor or something
 
-pdffile = "./data/example.pdf"  # Some url to PDF
+pdffile = "./data/example2.pdf"  # Some url to PDF
 doc = fitz.open(pdffile)        # This is a generator.
 page = doc.loadPage(1)          # Load some page
 pages=[]                        # Array of all pages
@@ -45,8 +45,7 @@ class Question:
 
 # Reading parser
 def parse_reading(start, end):
-    keyword = " are based on the following \npassage" 
-    
+    keyword = "are based on the" 
     reading_pages = pages[start:end]
     reading = {}
     # reading.update(section : passage : [ "",{ qnumber : [question,answer]}])
@@ -57,31 +56,40 @@ def parse_reading(start, end):
         #So, I *think* questions are going to look like questionNum\n\n\n?
 
     for page in reading_pages:
-        if not searching_question: 
-        
-            # If this is the start of a passage:
-            if keyword in page.lower():         # Start the construction for a passage start
-                page = page.split(keyword)[1]   # Remove the bits before the reading passage
-                # Increment passage & question
-                currentpassage += 1
-                # Add the passage to the array and set it to the current one
-                reading.update( {str(currentpassage) : ["", {}]} )
-                #passage = reading[currentpassage][0] #I think this is the problem. You can't assign to a mem location like this in python? smh
+        if "D)" not in page.split(keyword)[0]:
+            searching_question=False
+        elif keyword in page.lower():
+            questions_on_page = re.findall("\d+[\s\S]+?D\)[\s\S]*?\n+?",page.split(keyword)[0].split("Questions")[0]+"\n1")                 # I'm a regex wizard.  🍞🧀🥓🍅🥬🍞
+            for question in questions_on_page:
+                if "Figure 1" not in question and "Figure 2" not in question and "D)" in question:  # Ignore figures, if they split through
+                    reading[str(currentpassage)][1].update( {str(currentquestion) : re.sub("[\s\S]+?(?=\n{2})","",question) })
+                    currentquestion+=1
+            searching_question=False        # If this is the start of a passage:
+        if keyword in page.lower():         # Start the construction for a passage start
+            page = page.split(keyword)[1]   # Remove the bits before the reading passage
+            bonusq = page.split(keyword)[0]   # Remove the bits before the reading passage
+            if "D)" in bonusq:
+                print("AAA")
+            # Increment passage & question
+            currentpassage += 1
+            # Add the passage to the array and set it to the current one
+            reading.update( {str(currentpassage) : ["", {}]} )
+            #passage = reading[currentpassage][0] #I think this is the problem. You can't assign to a mem location like this in python? smh
 
-                formattedquestion = "\n{0}".format(currentquestion)
-                if  re.search("A\).*\\nB\).*\\nC\).*\\nD\).*",page) != None:
-                    reading[str(currentpassage)][0] += page
-                    searching_question = True # Once we hit the end phrase, start scanning the PDF for questions.
-                else:
-                    reading[str(currentpassage)][0] += page 
+            formattedquestion = "\n{0}".format(currentquestion)
+            if  re.search("A\).*\\nB\).*\\nC\).*\\nD\).*",page) != None:
+                reading[str(currentpassage)][0] += page
+                searching_question = True # Once we hit the end phrase, start scanning the PDF for questions.
+            else:
+                reading[str(currentpassage)][0] += page 
 
             # If this is a page of questions following a passage:
-            elif currentpassage > 0:    
-                # Format question and set current passage
-                formattedquestion = "\n{0}".format(currentquestion)
-                if re.search("A\)?",page) != None:
-                    reading[str(currentpassage)][0] += page[:re.search("A\)?",page).span()[0]]
-                    searching_question = True
+        elif currentpassage > 0:    
+            # Format question and set current passage
+            formattedquestion = "\n{0}".format(currentquestion)
+            if re.search("A\)?",page) != None:
+                reading[str(currentpassage)][0] += page[:re.search("A\)?",page).span()[0]]
+                searching_question = True
             
 
                
@@ -92,7 +100,6 @@ def parse_reading(start, end):
                 if "Figure 1" not in question and "Figure 2" not in question and "D)" in question:  # Ignore figures, if they split through
                     reading[str(currentpassage)][1].update( {str(currentquestion) : re.sub("[\s\S]+?(?=\n{2})","",question) })
                     currentquestion+=1
-            searching_question=False
             
     return reading
     
@@ -146,14 +153,14 @@ for num,page in enumerate(pages):
     elif ("math test" in page.lower() and "calculator" in page.lower()):
         startcalc=num
         
-if (startread != 0 and startwrite !=0):     
-   pass
+if (startread != 0 and startwrite !=0):
    # Need to do: trim more of these, especially the weird quirk with the passages where they get the question part of the first two questions.
    # print(parse_reading(start,end)["1"][1])
-   #print(parse_reading(startread,startwrite)["3"][1].keys())
+   print(parse_reading(startread,startwrite)["5"][1].keys())
   # print(parse_reading(startread,startwrite)["5"][0])
 if (startwrite !=0 and startmath !=0):
-    print((parse_writing(startwrite,startmath)));  
+    #print((parse_writing(startwrite,startmath)));
+    pass  
 """
 pix = page.getPixmap()
 output = "./images/output.png"
