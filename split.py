@@ -123,7 +123,7 @@ def parse_writing(start, end):
         for question in questions_on_page:
             temp_questions.update({str(currentquestion) : question })
             currentquestion+=1
-       #  # Find the text, append it to a new page object of the current passage object
+        # Find the text, append it to a new page object of the current passage object
         writing[str(currentpassage)].append([temp_info,temp_questions])                 # Write the current page to the correct passage subheader.
     return writing
         
