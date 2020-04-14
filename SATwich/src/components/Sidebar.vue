@@ -1,13 +1,19 @@
 <template>
   <nav id="nav">
     <ul class="nav-group">
-      <li><button class="nav-button"><span class="oi" data-glyph="home" title="Home" aria-hidden="true"></span>Dashboard</button></li>
+      <li><button class="nav-button"><div class="nav-icon"><img src="../assets/img/snd.svg" /></div><span class="jank">Dashboard</span></button></li>
     </ul>
     <hr>
     <ul class="nav-group">
-      <li><button class="nav-button"><span class="oi red" data-glyph="book" title="Book" aria-hidden="true"></span>Your Tests</button></li>
-      <li><button class="nav-button"><span class="oi orange" data-glyph="pencil" title="Pencil" aria-hidden="true"></span>Test Profiles</button></li>
-      <li><button class="nav-button"><span class="oi purple" data-glyph="graph" title="Graph" aria-hidden="true"></span>Test Analytics</button></li>
+      <li>
+        <button class="nav-button"><div class="nav-icon"><span class="oi red" data-glyph="book" title="Book" aria-hidden="true"></span></div>Your Tests</button>
+      </li>
+      <li>
+        <button class="nav-button"><div class="nav-icon"><span class="oi orange" data-glyph="pencil" title="Pencil" aria-hidden="true"></span></div>Test Profiles</button>
+      </li>
+      <li>
+        <button class="nav-button"><div class="nav-icon"><span class="oi purple" data-glyph="graph" title="Graph" aria-hidden="true"></span></div>Test Analytics</button>
+      </li>
     </ul>
     <hr>
   </nav>
@@ -37,17 +43,31 @@
     transition-duration: 0.1s;
   }
 
-  .nav-button .oi {
-    margin-right: 1rem;
-  }
-
   .nav-button:hover {
     border-radius: 5px;
     background-color: #eee;
   }
 
+  .nav-icon {
+    display: inline-block;
+    margin-right: 1rem;
+    width: 30px;
+    vertical-align: bottom;
+  }
+
+  .nav-icon > * {
+    display: block;
+    margin: auto;
+    width: 20px;
+  }
+
+  .nav-icon > img {
+    width: 30px;
+  }
+
   #nav {
-    padding: 0 1rem;
+    padding-left: 0.5rem;
+    padding-right: 2rem;
   }
 
   #nav .nav-group {
@@ -60,7 +80,7 @@
     border-style:solid;
     color:#ddd; 
     width: 200px;
-    margin: 1.5rem;
+    margin: 2rem;
   }
 
   .red {
