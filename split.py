@@ -25,7 +25,7 @@ Steps:
 
 questions = dict() # Fix this constructor or something
 
-pdffile = "./data/example2.pdf"  # Some url to PDF
+pdffile = "./data/example.pdf"  # Some url to PDF
 doc = fitz.open(pdffile)        # This is a generator.
 page = doc.loadPage(1)          # Load some page
 pages=[]                        # Array of all pages
@@ -42,7 +42,19 @@ class Question:
         self.num = num
         self.choices = choices
         self.answer = answer
-
+def sanitize(reading):
+    modreading=reading
+    for item in reading.keys():
+        passage=modreading[item][0]
+        questions=modreading[item][1]
+        #sanitize the passage
+        passage=re.sub("(CONTINUE)|(STOP)","\n",passage)
+        passage=re.sub("\n+\d{1,}","",passage)
+        passage=re.sub("\s{3,}","\n\n",passage)
+        passage=re.sub("\nLine\n","\n",passage)
+        passage=re.sub("Unauthorized copying or reuse of any part of this page is illegal.","",passage)
+        modreading[item][0]=passage
+    return modreading
 # Reading parser
 def parse_reading(start, end):
     keyword = "are based on the" 
@@ -101,7 +113,7 @@ def parse_reading(start, end):
                     reading[str(currentpassage)][1].update( {str(currentquestion) : re.sub("[\s\S]+?(?=\n{2})","",question) })
                     currentquestion+=1
             
-    return reading
+    return sanitize(reading)
     
 #Writing parser
 def parse_writing(start, end):
@@ -125,7 +137,9 @@ def parse_writing(start, end):
         temp_info= re.findall("(?<!A\))[\s\S]+?\s{1}?(?=A\))",modpage)[0]               # What this regex actually does is look for parts of the page that do not have a A) preceding them, followed by only one space before an A) This captures only the passage.
         temp_info= temp_info.split("\n \n ")[0]
         modpage=modpage.replace(temp_info,"")                                           # Once we've cached the passage, remove it such that we can move on to the questions.
-        modpage=str(currentquestion)+modpage                                            # Add a number at the beginning of the question, as the question parsing regex is dependent on it.
+        modpage=str(currentquestion)+modpage      
+        if currentpassage==1 and "annihilating" in page:
+            print(temp_info)                                      # Add a number at the beginning of the question, as the question parsing regex is dependent on it.
         questions_on_page = re.findall("\d+[\s\S]+?D\)?[\s\S]*?\n+(?=\d)",modpage)      # Find all of the valid questions in the remainder of the page       
         for question in questions_on_page:
             temp_questions.update({str(currentquestion) : question })
@@ -156,10 +170,10 @@ for num,page in enumerate(pages):
 if (startread != 0 and startwrite !=0):
    # Need to do: trim more of these, especially the weird quirk with the passages where they get the question part of the first two questions.
    # print(parse_reading(start,end)["1"][1])
-   print(parse_reading(startread,startwrite)["5"][1].keys())
-  # print(parse_reading(startread,startwrite)["5"][0])
+  print(parse_reading(startread,startwrite)["5"][1].keys())
+  print(parse_reading(startread,startwrite)["3"][0])
 if (startwrite !=0 and startmath !=0):
-    #print((parse_writing(startwrite,startmath)));
+    #print((parse_writing(startwrite,startmath))["1"][1][1]["3"]);
     pass  
 """
 pix = page.getPixmap()
