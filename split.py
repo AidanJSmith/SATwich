@@ -2,6 +2,8 @@
 import fitz
 import sys
 import re
+import collections 
+
 """
 https://github.com/pymupdf/PyMuPDF-Utilities/tree/master/examples
 Steps:
@@ -31,18 +33,7 @@ page = doc.loadPage(1)          # Load some page
 pages=[]                        # Array of all pages
 for page in doc:                # Init pages
     pages.append(page.getText())
-
-# Create a generic question object
-class Question:
-    num = 0         # Question number
-    choices = []    # String[] of possible choices - [] be used as an FRQ for math?
-    answer = ""     # String from choices that is the correct answer 
-
-    def __init__(self, num, choices, answer):
-        self.num = num
-        self.choices = choices
-        self.answer = answer
-
+lastpage=page
 #Remove artifacts from a passed writing object
 def sanitize_writing(writing):
     modwriting=writing
@@ -167,11 +158,8 @@ def parse_writing(start, end):
         # Find the text, append it to a new page object of the current passage object
         writing[str(currentpassage)].append([temp_info,temp_questions])                 # Write the current page to the correct passage subheader.
     return sanitize_writing(writing)
-        
-        
-        
-        
-
+ 
+ 
 #Math parser (Nemo's Job, lucky him)
 
 #CalcMath parser (Nemo's Job, lucky him)
@@ -186,7 +174,7 @@ for num,page in enumerate(pages):
         startmath=num
     elif ("math test" in page.lower() and "calculator" in page.lower()):
         startcalc=num
-        
+
 if (startread != 0 and startwrite !=0):
    # Need to do: trim more of these, especially the weird quirk with the passages where they get the question part of the first two questions.
    # print(parse_reading(start,end)["1"][1])
@@ -194,10 +182,46 @@ if (startread != 0 and startwrite !=0):
   #print(parse_reading(startread,startwrite)["5"][1]["50"])
   pass
 if (startwrite !=0 and startmath !=0):
-    print((parse_writing(startwrite,startmath))["4"][3][1]["43"]);
+  #  print((parse_writing(startwrite,startmath))["4"][3][1]["43"]);
     pass  
-"""
-pix = page.getPixmap()
+reading=parse_reading(startread,startwrite)
+writing=parse_writing(startwrite,startmath)
+#get the number of questions in writing
+reading_qnum=0
+for item in reading:
+    for question in reading[item][1]:
+        reading_qnum+=1
+#get the number of questions in reading
+writing_qnum=0
+for item in writing.keys():
+    for num,page in enumerate(writing[item]):
+        for key in writing[item][num][1]:
+            writing_qnum+=1
+#get the number of questions in math
+nocalc_qnum=20
+#get the number of questions in calc.
+calc_qnum=38
+
+#Use a queue to create a key object
+keyqueue=collections.deque(lastpage.getText().split("\n")[5:])
+key=dict(reading={},writing={},nocalc={},calc={})
+current_question=1
+while current_question<=max(calc_qnum,nocalc_qnum,writing_qnum,reading_qnum):
+    if (current_question<=reading_qnum):
+        key["reading"][str(current_question)]=keyqueue.popleft()
+    if (current_question<=writing_qnum):
+        key["writing"][str(current_question)]=keyqueue.popleft()
+    if (current_question<=nocalc_qnum):
+        key["nocalc"][str(current_question)]=keyqueue.popleft()
+    if (current_question<=calc_qnum):
+        key["calc"][str(current_question)]=keyqueue.popleft()
+    current_question+=1
+    keyqueue.popleft()
+        
+    
+print(key)
+'''
+pix = lastpage.getPixmap()
 output = "./images/output.png"
 pix.writePNG(output)
-""" 
+'''
