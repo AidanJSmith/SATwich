@@ -42,7 +42,24 @@ class Question:
         self.num = num
         self.choices = choices
         self.answer = answer
-def sanitize(reading):
+
+#Remove artifacts from a passed writing object
+def sanitize_writing(writing):
+    modwriting=writing
+    for item in modwriting.keys():
+        for num,page in enumerate(modwriting[item]):
+            passage=modwriting[item][num][0]
+            passage=re.sub("Unauthorized copying or reuse of any part of this page is illegal.","",passage);
+            passage=re.sub("\n\d+","",passage);
+            questions=modwriting[item][num][1];
+            for key in modwriting[item][num][1]:
+                question=modwriting[item][num][1][key]
+                question=re.sub("\d+\s+","",question)
+                questions[key]=re.sub("[\s]{3,}[\s\S]+","",question)
+            modwriting[item][num][0]=passage
+    return modwriting 
+#Remove artifacts from a passed reading object 
+def sanitize_reading(reading):
     modreading=reading
     for item in reading.keys():
         passage=modreading[item][0]
@@ -54,6 +71,13 @@ def sanitize(reading):
         passage=re.sub("\nLine\n","\n",passage)
         passage=re.sub("Unauthorized copying or reuse of any part of this page is illegal.","",passage)
         modreading[item][0]=passage
+        #sanitize questions
+        for questionnum in modreading[item][1].keys():
+            #Do stuff
+            question=modreading[item][1][questionnum]
+            question=re.sub("\d+\s+","",question)
+            modreading[item][1][questionnum]=re.sub("[\s]{3,}[\s\S]+","",question)
+            pass
     return modreading
 # Reading parser
 def parse_reading(start, end):
@@ -102,10 +126,6 @@ def parse_reading(start, end):
             if re.search("A\)?",page) != None:
                 reading[str(currentpassage)][0] += page[:re.search("A\)?",page).span()[0]]
                 searching_question = True
-            
-
-               
- 
         if (searching_question):                                                                    # Use regexes to find portions that start with at least one digit (?#) and end in the line following D) 
             questions_on_page = re.findall("\d+[\s\S]+?D\)?[\s\S]*?\n+(?=\d)",page)                 # I'm a regex wizard.  🍞🧀🥓🍅🥬🍞
             for question in questions_on_page:
@@ -113,7 +133,7 @@ def parse_reading(start, end):
                     reading[str(currentpassage)][1].update( {str(currentquestion) : re.sub("[\s\S]+?(?=\n{2})","",question) })
                     currentquestion+=1
             
-    return sanitize(reading)
+    return sanitize_reading(reading)
     
 #Writing parser
 def parse_writing(start, end):
@@ -146,7 +166,7 @@ def parse_writing(start, end):
             currentquestion+=1
         # Find the text, append it to a new page object of the current passage object
         writing[str(currentpassage)].append([temp_info,temp_questions])                 # Write the current page to the correct passage subheader.
-    return writing
+    return sanitize_writing(writing)
         
         
         
@@ -170,10 +190,11 @@ for num,page in enumerate(pages):
 if (startread != 0 and startwrite !=0):
    # Need to do: trim more of these, especially the weird quirk with the passages where they get the question part of the first two questions.
    # print(parse_reading(start,end)["1"][1])
-  print(parse_reading(startread,startwrite)["5"][1].keys())
-  print(parse_reading(startread,startwrite)["3"][0])
+  #print(parse_reading(startread,startwrite)["5"][1].keys())
+  #print(parse_reading(startread,startwrite)["5"][1]["50"])
+  pass
 if (startwrite !=0 and startmath !=0):
-    #print((parse_writing(startwrite,startmath))["1"][1][1]["3"]);
+    print((parse_writing(startwrite,startmath))["4"][3][1]["43"]);
     pass  
 """
 pix = page.getPixmap()
