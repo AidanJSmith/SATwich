@@ -52,11 +52,12 @@
     box-shadow: #0003 5px 0 10px;
     padding-top: 1rem;
     width: 300px;
+    position: relative;
   }
 
   #app {
     padding-left: 80px;
-    padding-top: 2rem;
+    padding-top: 1rem;
     flex: 1 1;
   }
 </style>

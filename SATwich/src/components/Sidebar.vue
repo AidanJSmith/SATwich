@@ -1,21 +1,43 @@
 <template>
   <nav id="nav">
     <ul class="nav-group">
-      <li><button class="nav-button"><div class="nav-icon"><img src="../assets/img/snd.svg" /></div><span class="jank">Dashboard</span></button></li>
+      <li><button class="nav-button"><div class="nav-icon"><img src="../assets/img/snd.svg" alt="Home" /></div>Dashboard</button></li>
     </ul>
     <hr>
     <ul class="nav-group">
       <li>
-        <button class="nav-button"><div class="nav-icon"><span class="oi red" data-glyph="book" title="Book" aria-hidden="true"></span></div>Your Tests</button>
+        <button class="nav-button"><div class="nav-icon"><span class="oi red" data-glyph="book" title="Your Tests" aria-hidden="true"></span></div>Your Tests</button>
       </li>
       <li>
-        <button class="nav-button"><div class="nav-icon"><span class="oi orange" data-glyph="pencil" title="Pencil" aria-hidden="true"></span></div>Test Profiles</button>
+        <button class="nav-button"><div class="nav-icon"><span class="oi orange" data-glyph="pencil" title="Profiles" aria-hidden="true"></span></div>Test Profiles</button>
       </li>
       <li>
-        <button class="nav-button"><div class="nav-icon"><span class="oi purple" data-glyph="graph" title="Graph" aria-hidden="true"></span></div>Test Analytics</button>
+        <button class="nav-button"><div class="nav-icon"><span class="oi gold" data-glyph="graph" title="Analytics" aria-hidden="true"></span></div>Test Analytics</button>
       </li>
     </ul>
     <hr>
+    <ul class="nav-group">
+      <li>
+        <button class="nav-button"><div class="nav-icon"><span class="oi" data-glyph="pin" title="Pinned Profile" aria-hidden="true"></span></div>Pinned</button>
+      </li>
+      <li>
+        <button class="nav-button"><div class="nav-icon"><span class="oi" data-glyph="pin" title="Pinned Profile" aria-hidden="true"></span></div>Pinned</button>
+      </li>
+      <li>
+        <button class="nav-button"><div class="nav-icon"><span class="oi" data-glyph="pin" title="Pinned Profile" aria-hidden="true"></span></div>Pinned</button>
+      </li>
+    </ul>
+    <section class="footer">
+      <p>v0.0.1</p>
+      <div class="group-right">
+        <button>
+          <span class="oi" data-glyph="cog" title="Settings" aria-hidden="true"></span>
+        </button>
+        <button>
+          <span class="oi" data-glyph="chevron-left" title="Collapse" aria-hidden="true"></span>
+        </button>
+      </div>
+    </section>
   </nav>
 </template>
 
@@ -26,26 +48,29 @@
 </script>
 
 <style scoped>
-  .nav-button {
+  button {
     background: none;
     border: none;
     border-radius: 50%;
     color: #555;
     font-family: inherit;
-    font-size: 1.3rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    padding: 1rem;
-    line-height: 1rem;
-    text-align: left;
-    width: 100%;
+    font-size: 1.2rem;
     outline: none;
-    transition-duration: 0.1s;
+    transition-duration: 0.2s;
   }
 
-  .nav-button:hover {
+  button:hover {
     border-radius: 5px;
     background-color: #eee;
+  }
+
+  .nav-button {
+    padding: 1rem;
+    line-height: 1rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-align: left;
+    width: 100%;
   }
 
   .nav-icon {
@@ -83,15 +108,44 @@
     margin: 2rem;
   }
 
+  .oi {
+    color: #777;
+  }
+
   .red {
     color: #FF000A;
   }
 
   .orange {
+    color: #F36B57;
+  }
+
+  .gold {
     color: #FFA000;
   }
 
-  .purple {
-    color: #B200FF;
+  .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.5rem 1rem;
+    padding-left: 3rem;
+    height: 50px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+  }
+
+  .footer .group-right {
+    font-size: 30px;
+    flex: 1 1;
+    text-align: right;
+  }
+
+  .footer .group-right button {
+    margin-left: 0.5rem;
+    padding: 0.5rem;
+    line-height: 10px;
   }
 </style>
