@@ -1,24 +1,16 @@
 <template>
-  <main id="main">
-    <section id="sidebar">
-      <Sidebar />
-    </section>
-    <section id="app">
-      <router-view></router-view>
-      <Dashboard />
-    </section>
-  </main>
+  <div>
+    Go to the next page?
+    <router-link to="example">Here</router-link>
+  </div>
 </template>
 
 <script>
-  import Dashboard from './components/Dashboard.vue'
-  import Sidebar from './components/Sidebar.vue'
 
   export default {
-    name: 'App',
+    name: 'Default',
     components: {
-      Dashboard,
-      Sidebar
+      
     }
   }
 </script>

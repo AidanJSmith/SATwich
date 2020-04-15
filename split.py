@@ -197,7 +197,7 @@ for item in writing.keys():
     for num,page in enumerate(writing[item]):
         for key in writing[item][num][1]:
             writing_qnum+=1
-#get the number of questions in math
+#get the number of questions in math Note to Nemo: Add your code here to count number of questions
 nocalc_qnum=20
 #get the number of questions in calc.
 calc_qnum=38
