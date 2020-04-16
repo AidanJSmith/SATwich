@@ -5,19 +5,16 @@
     </section>
     <section id="app">
       <router-view></router-view>
-      <Dashboard />
     </section>
   </main>
 </template>
 
 <script>
-  import Dashboard from './components/Dashboard.vue'
   import Sidebar from './components/Sidebar.vue'
 
   export default {
     name: 'App',
     components: {
-      Dashboard,
       Sidebar
     }
   }

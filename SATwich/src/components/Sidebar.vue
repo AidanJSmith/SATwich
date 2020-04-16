@@ -1,12 +1,18 @@
 <template>
   <nav id="nav">
     <ul class="nav-group">
-      <li><button class="nav-button"><div class="nav-icon"><img src="../assets/img/snd.svg" alt="Home" /></div>Dashboard</button></li>
+      <li>
+        <router-link to="Dashboard">
+          <button class="nav-button"><div class="nav-icon"><img src="../assets/img/snd.svg" alt="Home" /></div>Dashboard</button>
+        </router-link>
+      </li>
     </ul>
     <hr>
     <ul class="nav-group">
       <li>
-        <button class="nav-button"><div class="nav-icon"><span class="oi red" data-glyph="book" title="Your Tests" aria-hidden="true"></span></div>Your Tests</button>
+        <router-link to="Example">
+          <button class="nav-button"><div class="nav-icon"><span class="oi red" data-glyph="book" title="Your Tests" aria-hidden="true"></span></div>Your Tests</button>
+        </router-link>
       </li>
       <li>
         <button class="nav-button"><div class="nav-icon"><span class="oi orange" data-glyph="pencil" title="Profiles" aria-hidden="true"></span></div>Test Profiles</button>
