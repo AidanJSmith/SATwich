@@ -3,6 +3,8 @@ import fitz
 import sys
 import re
 import collections 
+import os
+import json
 
 """
 https://github.com/pymupdf/PyMuPDF-Utilities/tree/master/examples
@@ -24,16 +26,6 @@ Steps:
       Writing section, math w/ calc, math w/out calc
 """
 
-
-questions = dict() # Fix this constructor or something
-
-pdffile = "./data/example.pdf"  # Some url to PDF
-doc = fitz.open(pdffile)        # This is a generator.
-page = doc.loadPage(1)          # Load some page
-pages=[]                        # Array of all pages
-for page in doc:                # Init pages
-    pages.append(page.getText())
-lastpage=page
 #Remove artifacts from a passed writing object
 def sanitize_writing(writing):
     modwriting=writing
@@ -71,7 +63,7 @@ def sanitize_reading(reading):
             pass
     return modreading
 # Reading parser
-def parse_reading(start, end):
+def parse_reading(start, end,pages):
     keyword = "are based on the" 
     reading_pages = pages[start:end]
     reading = {}
@@ -127,7 +119,7 @@ def parse_reading(start, end):
     return sanitize_reading(reading)
     
 #Writing parser
-def parse_writing(start, end):
+def parse_writing(start, end,pages):
     keyword = " are based on the following passage" 
     writing_pages = pages[start:end]
     writing = {}
@@ -163,65 +155,71 @@ def parse_writing(start, end):
 #Math parser (Nemo's Job, lucky him)
 
 #CalcMath parser (Nemo's Job, lucky him)
+def getTest(pdf="./data/example.pdf",testname="example"):
+    if not os.path.isdir("./data/{0}".format(testname)):
+        os.makedirs("./data/{0}".format(testname))
+    pdffile = pdf  # Some url to PDF
+    doc = fitz.open(pdffile)        # This is a generator.
+    page = doc.loadPage(1)          # Load some page
+    pages=[]                        # Array of all pages
+    for page in doc:                # Init pages
+        pages.append(page.getText())
+    lastpage=page
 
-startread=startwrite=startmath=startcalc=0
-for num,page in enumerate(pages):
-    if("reading test" in page.lower()):
-        startread=num
-    if("writing and language test" in page.lower()):
-        startwrite=num
-    if("math test" in page.lower() and "no calculator" in page.lower()):
-        startmath=num
-    elif ("math test" in page.lower() and "calculator" in page.lower()):
-        startcalc=num
+    startread=startwrite=startmath=startcalc=0
+    for num,page in enumerate(pages):
+        if("reading test" in page.lower()):
+            startread=num
+        if("writing and language test" in page.lower()):
+            startwrite=num
+        if("math test" in page.lower() and "no calculator" in page.lower()):
+            startmath=num
+        elif ("math test" in page.lower() and "calculator" in page.lower()):
+            startcalc=num
 
-if (startread != 0 and startwrite !=0):
-   # Need to do: trim more of these, especially the weird quirk with the passages where they get the question part of the first two questions.
-   # print(parse_reading(start,end)["1"][1])
-  #print(parse_reading(startread,startwrite)["5"][1].keys())
-  #print(parse_reading(startread,startwrite)["5"][1]["50"])
-  pass
-if (startwrite !=0 and startmath !=0):
-  #  print((parse_writing(startwrite,startmath))["4"][3][1]["43"]);
-    pass  
-reading=parse_reading(startread,startwrite)
-writing=parse_writing(startwrite,startmath)
-#get the number of questions in writing
-reading_qnum=0
-for item in reading:
-    for question in reading[item][1]:
-        reading_qnum+=1
-#get the number of questions in reading
-writing_qnum=0
-for item in writing.keys():
-    for num,page in enumerate(writing[item]):
-        for key in writing[item][num][1]:
-            writing_qnum+=1
-#get the number of questions in math Note to Nemo: Add your code here to count number of questions
-nocalc_qnum=20
-#get the number of questions in calc.
-calc_qnum=38
+    reading=parse_reading(startread,startwrite,pages)
+    writing=parse_writing(startwrite,startmath,pages)
+    #get the number of questions in writing
+    reading_qnum=0
+    for item in reading:
+        for question in reading[item][1]:
+            reading_qnum+=1
+    #get the number of questions in reading
+    writing_qnum=0
+    for item in writing.keys():
+        for num,page in enumerate(writing[item]):
+            for key in writing[item][num][1]:
+                writing_qnum+=1
+    #get the number of questions in math Note to Nemo: Add your code here to count number of questions
+    nocalc_qnum=20
+    #get the number of questions in calc.
+    calc_qnum=38
 
-#Use a queue to create a key object
-keyqueue=collections.deque(lastpage.getText().split("\n")[5:])
-key=dict(reading={},writing={},nocalc={},calc={})
-current_question=1
-while current_question<=max(calc_qnum,nocalc_qnum,writing_qnum,reading_qnum):
-    if (current_question<=reading_qnum):
-        key["reading"][str(current_question)]=keyqueue.popleft()
-    if (current_question<=writing_qnum):
-        key["writing"][str(current_question)]=keyqueue.popleft()
-    if (current_question<=nocalc_qnum):
-        key["nocalc"][str(current_question)]=keyqueue.popleft()
-    if (current_question<=calc_qnum):
-        key["calc"][str(current_question)]=keyqueue.popleft()
-    current_question+=1
-    keyqueue.popleft()
-        
+    #Use a queue to create a key object
+    keyqueue=collections.deque(lastpage.getText().split("\n")[5:])
+    key=dict(reading={},writing={},nocalc={},calc={})
+    current_question=1
+    while current_question<=max(calc_qnum,nocalc_qnum,writing_qnum,reading_qnum):
+        if (current_question<=reading_qnum):
+            key["reading"][str(current_question)]=keyqueue.popleft()
+        if (current_question<=writing_qnum):
+            key["writing"][str(current_question)]=keyqueue.popleft()
+        if (current_question<=nocalc_qnum):
+            key["nocalc"][str(current_question)]=keyqueue.popleft()
+        if (current_question<=calc_qnum):
+            key["calc"][str(current_question)]=keyqueue.popleft()
+        current_question+=1
+        keyqueue.popleft()
+            
+    test={'reading':reading,"writing":writing,"key":key}  
+    test = json.dumps(test)  
+    with open('./data/{0}/test.json'.format(testname), 'w') as f:
+        json.dump(test, f)
+    return True
+    '''
+    pix = lastpage.getPixmap()
+    output = "./images/output.png"
+    pix.writePNG(output)
+    '''
     
-print(key)
-'''
-pix = lastpage.getPixmap()
-output = "./images/output.png"
-pix.writePNG(output)
-'''
+print(getTest())
