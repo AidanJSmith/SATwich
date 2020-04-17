@@ -8,7 +8,8 @@
             <img src="../assets/img/snd.svg" alt="Bread" />
             <h3>Lunch Break</h3>
           </div>
-          <p><b>SAT:</b> Reading, Math</p>
+          <p><b>SAT Test 1</b></p>
+          <p>Reading, Math, Math Calc</p>
           <div class="profile-info">
             <span class="oi" data-glyph="question-mark" title="Questions" aria-hidden="true"></span>
             <p>16</p>
@@ -29,7 +30,8 @@
             <img src="../assets/img/snd.svg" alt="Bread" />
             <h3>Lunch Break</h3>
           </div>
-          <p><b>SAT:</b> Reading, Math</p>
+          <p><b>SAT Test 1</b></p>
+          <p>Reading, Math, Math Calc</p>
           <div class="profile-info">
             <span class="oi" data-glyph="question-mark" title="Questions" aria-hidden="true"></span>
             <p>25</p>
@@ -47,7 +49,8 @@
             <img src="../assets/img/snd.svg" alt="Bread" />
             <h3>Other One</h3>
           </div>
-          <p><b>ACT:</b> Math, Math Calc</p>
+          <p><b>Reddit ACT 1</b></p>
+          <p>Math, Math Calc</p>
           <div class="profile-info">
             <span class="oi" data-glyph="question-mark" title="Questions" aria-hidden="true"></span>
             <p>55</p>
@@ -87,6 +90,11 @@ export default {
     border-radius: 10px;
     width: 200px;
     position: relative;
+  }
+
+  .card > p {
+    margin-top: 10px;
+    margin-bottom: 20px;
   }
 
   .card .title-bar > h3 {

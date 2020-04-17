@@ -10,7 +10,7 @@
     <hr>
     <ul class="nav-group">
       <li>
-          <button class="nav-button"><div class="nav-icon"><span class="oi red" data-glyph="book" title="Your Tests" aria-hidden="true"></span></div>Your Tests</button>
+          <button class="nav-button"><div class="nav-icon"><span class="oi red" data-glyph="book" title="Your Tests" aria-hidden="true"></span></div>Your Test PDFs</button>
       </li>
       <li>
         <router-link to="Profiles">
