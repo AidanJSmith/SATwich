@@ -98,7 +98,7 @@
   #nav hr {
     border-style:solid;
     color:#ddd; 
-    width: 200px;
+    width: 80%;
     margin: 2rem;
   }
 
