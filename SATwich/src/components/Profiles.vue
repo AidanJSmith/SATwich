@@ -158,7 +158,7 @@
           if (this.nocalc) {
             fields.push("Math");
           }
-          tempJSON["name"]={"name":this.name,"type":this.type,"fields":fields,"qnum":this.questionNum,"time":this.time_num,"finished":true,"pdf":this.pdf};
+          tempJSON[this.name]={"name":this.name,"type":this.type,"fields":fields,"qnum":this.questionNum,"time":this.time_num,"finished":true,"pdf":this.pdf};
           try { fs.writeFileSync("src/data/profiles/profiles.json", JSON.stringify(tempJSON), 'utf-8'); }
           catch(e) { alert(e); }
         } 
