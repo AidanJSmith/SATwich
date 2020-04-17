@@ -54,6 +54,10 @@
     position: relative;
   }
 
+  #sidebar.collapsed {
+    width: 90px;
+  }
+
   #app {
     padding-left: 80px;
     padding-top: 1rem;
