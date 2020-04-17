@@ -13,6 +13,7 @@
   },
   "main": "background.js",
   "dependencies": {
+    "chart.js": "^2.9.3",
     "core-js": "^3.6.4",
     "electron-builder": "^22.4.1",
     "python-shell": "^1.0.8",
