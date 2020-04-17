@@ -9,7 +9,7 @@
             <h3>{{test}}</h3>
           </div>
           <p><b>SAT</b></p>
-          <p>Write Code to total qs later</p>
+          <p><b>182</b> questions</p> 
           <div class="overlay-actions">
             <p class="text-small"><span class="oi" data-glyph="trash" title="Remove Profile" aria-hidden="true"></span> Delete PDF</p>
           </div>
