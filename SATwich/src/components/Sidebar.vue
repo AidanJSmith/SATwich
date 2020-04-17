@@ -54,22 +54,6 @@
 </script>
 
 <style scoped>
-  button {
-    background: none;
-    border: none;
-    border-radius: 50%;
-    color: #555;
-    font-family: inherit;
-    font-size: 1.2rem;
-    outline: none;
-    transition-duration: 0.2s;
-  }
-
-  button:hover {
-    border-radius: 5px;
-    background-color: #eee;
-  }
-
   .nav-button {
     padding: 1rem;
     line-height: 1rem;

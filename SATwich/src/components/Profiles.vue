@@ -23,7 +23,7 @@
           </div>
         </div>
     </section>
-    <h2>Your Profiles</h2>
+    <h2>Your Profiles <span class="oi green" data-glyph="plus" title="Add Profile" aria-hidden="true" v-on:click="openAddProfile();"></span></h2>
     <section class="flex-wrap">
         <div class="card">
           <div class="title-bar">
@@ -64,17 +64,121 @@
           </div>
         </div>
     </section>
+    <section id="overlay-full" v-on:click="closeDialog();">
+      <div v-on:click="stopPropogation($event);">
+        <h2>Add A Profile</h2>
+        <br>
+        <form action="idk lol">
+          <div>
+            <label for="name">Name: </label>
+            <input id="name" type="text">
+          </div>
+          <div>
+            <label for="test">Test Type: </label>
+            <select id="test">
+              <option>SAT</option>
+            </select>
+          </div>
+          <div>
+            <label for="test">Test PDF: </label>
+            <select id="test">
+              <option>option 1</option>
+            </select>
+          </div>
+          <div>
+            <label for="questions">Questions: </label>
+            <input id="questions" type="number">
+          </div>
+          <div>
+            <label for="istimed">Enable Time Limit: </label>
+            <input id="istimed" type="checkbox" v-on:click="toggleTimeField();">
+          </div>
+          <div id="time-field">
+            <label for="time">Time (Minutes): </label>
+            <input id="time" type="number" value="0">
+          </div>
+          <div>
+            <button type="submit"><span class="oi green" data-glyph="check" title="Check" aria-hidden="true" /> Add Profile</button>
+          </div>
+        </form>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'Profiles'
-}
+  export default {
+    name: 'Profiles',
+    methods: {
+      openAddProfile () {
+        document.getElementById("overlay-full").style.display = "flex";
+      },
+      toggleTimeField() {
+        var timeField = document.getElementById("time-field");
+        if (timeField.style.display === "flex")
+          timeField.style.display = "none";
+        else
+          timeField.style.display = "flex";
+      },
+      closeDialog () {
+        document.getElementById("overlay-full").style.display = "none";
+      },
+      stopPropogation (event) {
+        event.stopPropagation();
+      }
+    }
+  }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  #overlay-full {
+    background-color: #0004;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+  }
+  
+  #overlay-full > div {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px 30px;
+    width: 500px;
+  }
+
+  form > div {
+    display: flex;
+    font-family: 'nunitolight';
+    letter-spacing: 0;
+    line-height: 20px;
+  }
+
+  form > div > * {
+    flex: 1 1;
+  }
+
+  form input, select {
+    border: #aaa 1px solid;
+    border-radius: 5px;
+    font-size: 18px;
+    margin-bottom: 15px;
+    padding: 5px 10px;
+    outline: none;
+  }
+
+  form button {
+    padding: 20px;
+  }
+
+  #time-field {
+    display: none;
+  }
+
   h1 {
     font-size: 3rem;
     margin-top: 2rem;
