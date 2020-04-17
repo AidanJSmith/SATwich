@@ -116,4 +116,64 @@
     margin-left: 0;
     width: 40px;
   }
+
+  
+  #overlay-full {
+    background-color: #0004;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+  }
+  
+  #overlay-full > div {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px 30px;
+    width: 500px;
+  }
+
+  form .row {
+    display: flex;
+    font-family: 'nunitolight';
+    letter-spacing: 0;
+    line-height: 20px;
+  }
+
+  form .row > * {
+    flex: 1 1;
+  }
+
+  form input, select {
+    border: #aaa 1px solid;
+    border-radius: 5px;
+    font-size: 18px;
+    margin-bottom: 15px;
+    padding: 5px 10px;
+    outline: none;
+  }
+
+  form button {
+    padding: 20px;
+  }
+
+  #time-field {
+    display: none;
+  }
+
+  #add-profile {
+    cursor: pointer;
+  }
+
+  .green {
+    color: #8cc63f;
+  }
+
+  .orange {
+    color: #f6b319;
+  }
 </style>
