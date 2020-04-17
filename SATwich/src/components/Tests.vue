@@ -3,13 +3,13 @@
     <h1>Your Test PDFs</h1>
     <h2>Your Test PDFs <span id="add-profile" class="oi green" data-glyph="plus" title="Add Profile" aria-hidden="true" @click="openDialog();"></span></h2>
     <section class="flex-wrap">
-        <div class="card">
+        <div class="card" v-for="test in tests" :key="test">
           <div class="title-bar">
             <img src="../assets/img/snd.svg" alt="Sandwich" />
-            <h3>Test PDF Name</h3>
+            <h3>{{test}}</h3>
           </div>
-          <p><b>Test Type</b></p>
-          <p>69 Questions</p>
+          <p><b>SAT</b></p>
+          <p>Write Code to total qs later</p>
           <div class="overlay-actions">
             <p class="text-small"><span class="oi" data-glyph="trash" title="Remove Profile" aria-hidden="true"></span> Delete PDF</p>
           </div>
@@ -32,11 +32,7 @@
           </div>
           <div class="row">
             <label for="pdf">Test PDF: </label>
-            <input id="pdf" type="file" accept=".pdf">
-          </div>
-          <div id="time-field" class="row">
-            <label for="time">Time (Minutes): </label>
-            <input id="time" type="number" v-model="time_num" value="0">
+            <input id="pdf" type="file" ref="file" accept=".pdf">
           </div>
           <div class="row">
             <button type="submit" @click="addPDF()"><span class="oi green" data-glyph="check" title="Check" aria-hidden="true" /> Add PDF</button>
@@ -48,14 +44,43 @@
 </template>
 
 <script>
+  import tests from "../data/tests/tests.json"
   export default {
     name: 'Tests',
+    data() {
+      return {
+        pdf: "",
+        name: "",
+        type: "",
+        file:"",
+        tests:tests,
+      }
+    },
     methods: {
       openDialog () {
         document.getElementById("overlay-full").style.display = "flex";
       },
       closeDialog () {
         document.getElementById("overlay-full").style.display = "none";
+      },
+      addPDF() {
+        console.log("click")
+        this.file = this.$refs.file.files[0];
+        var fs = require('fs');
+        try { fs.writeFileSync("src/last_new.json", JSON.stringify({name:this.name,path:this.file.path}), 'utf-8'); }
+        catch(e) { alert(e); }
+        var myPythonScriptPath = require('electron').remote.app.getAppPath()+`\\..\\src\\split.py`;
+        console.log(myPythonScriptPath)
+        var {PythonShell} = require('python-shell');
+        PythonShell.run(myPythonScriptPath, null, function (err, results) {
+          if (err) throw err;
+          console.log('finished');
+          console.log(results);
+        });
+        let test=tests;
+        test.push(this.name);
+        try { fs.writeFileSync("src/data/tests/tests.json", JSON.stringify(test), 'utf-8'); }
+        catch(e) { alert(e); }
       },
       stopPropogation (event) {
         event.stopPropagation();

@@ -155,10 +155,10 @@ def parse_writing(start, end,pages):
 #Math parser (Nemo's Job, lucky him)
 
 #CalcMath parser (Nemo's Job, lucky him)
-def getTest(pdf="./data/tests/example.pdf",testname="example"):
-    if not os.path.isdir("./data/tests/{0}".format(testname)):
-        os.makedirs("./data/tests/{0}".format(testname))
-        os.makedirs("./data/tests/{0}/images".format(testname))
+def getTest(pdf,testname="example"):
+    if not os.path.isdir(os.getcwd()+"\\src\\"+"./data/tests/{0}".format(testname)):
+        os.makedirs(os.getcwd()+"\\src\\"+"./data/tests/{0}".format(testname))
+        os.makedirs(os.getcwd()+"\\src\\"+"./data/tests/{0}/images".format(testname))
     pdffile = pdf  # Some url to PDF
     doc = fitz.open(pdffile)        # This is a generator.
     page = doc.loadPage(1)          # Load some page
@@ -168,7 +168,7 @@ def getTest(pdf="./data/tests/example.pdf",testname="example"):
         pages.append(page.getText())
         pages_raw.append(page)
         pix = page.getPixmap()
-        output = "./data/tests/{0}/images/{1}.png".format(testname,page.number)
+        output =os.getcwd()+"\\src\\"+"./data/tests/{0}/images/{1}.png".format(testname,page.number)
         pix.writePNG(output)
     lastpage=page
     startread=startwrite=startmath=startcalc=0
@@ -218,9 +218,14 @@ def getTest(pdf="./data/tests/example.pdf",testname="example"):
             
     test={'reading':reading,"writing":writing,"key":key}  
     test = json.dumps(test)  
-    with open('./data/tests/{0}/test.json'.format(testname), 'w') as f:
+    with open(os.getcwd()+"\\src\\"+'./data/tests/{0}/test.json'.format(testname), 'w') as f:
         json.dump(test, f)
     return True
     
-    
-print(getTest())
+
+
+
+with open(os.getcwd()+'/src/last_new.json') as f:
+  data = json.load(f)
+  print(data)
+  print(getTest(data["path"],data["name"]))
