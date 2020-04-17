@@ -16,7 +16,7 @@
             <img src="../assets/img/snd_cheese.svg" alt="Cheese" />
             <h3>Accuracy</h3>
           </div>
-          <p>On average, you miss <b>Placeholder</b> out of every <b>Placeholder</b> questions. This is <b>average</b>!</p>
+          <p>On average, you miss <b>{{Math.round((read_correct+write_correct+calc_correct+nocalc_correct)/(read_total+write_total+calc_total+nocalc_total)*100) }}</b> out of every <b>100</b> questions. This is <b>average</b>!</p>
         </div>
         <div class="card">
           <div class="title-bar">
@@ -74,13 +74,13 @@ export default {
     let parsed=JSON.parse(json);
     this.speed=parsed["speed"]
     this.read_correct=parsed["reading"]["correct"]
-    this.read_total=parsed["reading"]["correct"]
+    this.read_total=parsed["reading"]["total"]
     this.write_correct=parsed["writing"]["correct"]
-    this.write_total=parsed["writing"]["correct"]
+    this.write_total=parsed["writing"]["total"]
     this.calc_correct=parsed["calc"]["correct"]
-    this.calc_total=parsed["calc"]["correct"]
+    this.calc_total=parsed["calc"]["total"]
     this.nocalc_correct=parsed["nocalc"]["correct"]
-    this.nocalc_total=parsed["nocalc"]["correct"]
+    this.nocalc_total=parsed["nocalc"]["total"]
   }
 
 }

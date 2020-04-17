@@ -63,7 +63,9 @@
           <div>
             <label for="test">Test PDF: </label>
             <select id="test">
-              <option>option 1</option>
+              <div>
+                <option v-for="pdf in pdfs" :key="pdf">{{pdf}}</option> <!-- Any idea why this might not work? -->
+              </div>
             </select>
           </div>
           <div>
@@ -89,6 +91,7 @@
 
 <script>
   import json from "../data/profiles/profiles.json"
+  import json2 from "../data/tests/tests.json"
   export default {
     name: 'Profiles',
     methods: {
@@ -113,15 +116,17 @@
       return {
         finished:[],
         possible:[],
+        pdfs:[],
       }
     }, mounted () {
       for (let item of Object.keys(json)) {
         if (json[item]["finished"]) {
-          this.finished.push(json[item])
+          this.finished.push(json[item]);
         } else {
-          this.possible.push(json[item])
+          this.possible.push(json[item]);
         }
       }
+      this.pdfs=json2;
     },
   }
 </script>
