@@ -32,7 +32,7 @@
   @import url('./assets/fonts/open-iconic.min.css');
 
   body {
-    height: 100vh;
+    height: 100%;
     margin: 0;
   }
 
@@ -44,6 +44,7 @@
     color: #2c3e50;
     display: flex;
     height: 100vh;
+    overflow: hidden;
   }
 
   #sidebar {
@@ -57,6 +58,22 @@
     padding-left: 80px;
     padding-top: 1rem;
     flex: 1 1;
+    height: 100vh;
+    overflow: scroll;
+  }
+  
+  #app::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  #app::-webkit-scrollbar-track {
+    background-color: #eee;
+    border-radius: 10px;
+  }
+  
+  #app::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 10px;
   }
   
   button {
