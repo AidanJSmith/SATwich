@@ -63,9 +63,7 @@
           <div>
             <label for="test">Test PDF: </label>
             <select id="test">
-              <div>
-                <option v-for="pdf in pdfs" :key="pdf">{{pdf}}</option> <!-- Any idea why this might not work? -->
-              </div>
+              <option v-for="pdf in pdfs" :key="pdf">{{pdf}}</option>
             </select>
           </div>
           <div>
@@ -104,6 +102,9 @@
           timeField.style.display = "none";
         else
           timeField.style.display = "flex";
+      },
+      addProfile() {
+
       },
       closeDialog () {
         document.getElementById("overlay-full").style.display = "none";
