@@ -14,7 +14,7 @@
             <span class="oi" data-glyph="question-mark" title="Questions" aria-hidden="true"></span>
             <p>{{item.qnum}}</p>
             <span class="oi" data-glyph="timer" title="Time" aria-hidden="true"></span>
-            <p>{{item.time}}</p>
+            <p>{{item.time==0 ? "N/A" : item.time}}</p>
           </div>
           <div class="overlay-actions">
             <span class="oi text-big orange" data-glyph="media-play" title="Resume Test" aria-hidden="true"></span>
@@ -23,7 +23,7 @@
           </div>
         </div>
     </section>
-    <h2>Your Profiles <span id="add-profile" class="oi green" data-glyph="plus" title="Add Profile" aria-hidden="true" v-on:click="openAddProfile();"></span></h2>
+    <h2>Your Profiles <span id="add-profile" class="oi green" data-glyph="plus" title="Add Profile" aria-hidden="true" @click="openAddProfile();"></span></h2>
     <section class="flex-wrap">
         <div class="card" v-for="item in finished" :key="item.name">
           <div class="title-bar">
@@ -36,7 +36,7 @@
             <span class="oi" data-glyph="question-mark" title="Questions" aria-hidden="true"></span>
             <p>{{item.qnum}}</p>
             <span class="oi" data-glyph="timer" title="Time" aria-hidden="true"></span>
-            <p>{{item.time}}</p>
+            <p>{{item.time==0 ? "N/A" : item.time}}</p>
           </div>
           <div class="overlay-actions">
             <span class="oi text-big green" data-glyph="media-play" title="Start Test" aria-hidden="true"></span>
@@ -52,34 +52,55 @@
         <form>
           <div>
             <label for="name">Name: </label>
-            <input id="name" type="text">
+            <input id="name" type="text" v-model="name">
           </div>
           <div>
             <label for="test">Test Type: </label>
-            <select id="test">
+            <select id="test" v-model="type">
               <option>SAT</option>
             </select>
           </div>
           <div>
             <label for="pdf">Test PDF: </label>
-            <select id="pdf">
+            <select id="pdf" v-model="pdf">
               <option v-for="pdf in pdfs" :key="pdf">{{pdf}}</option>
             </select>
           </div>
           <div>
             <label for="questions">Questions: </label>
-            <input id="questions" type="number">
+            <input id="questions" type="number" v-model="questionNum">
+          </div>
+           <div>
+            <label for="fields">Sections: </label>
+              <div class="collumn">
+                <div class="row">
+                  <label for="istimed">Reading </label>
+                  <input id="istimed" type="checkbox" v-model="reading">
+                </div>
+                <div class="row">
+                  <label for="istimed">Writing </label>
+                  <input id="istimed" type="checkbox" v-model="writing">
+                </div>
+                <div class="row">
+                  <label for="istimed">Math </label>
+                  <input id="istimed" type="checkbox" v-model="nocalc">
+                </div>
+                <div class="row">
+                  <label for="istimed">Math (calculator) </label>
+                  <input id="istimed" type="checkbox" v-model="calc">
+                </div>
+              </div>
           </div>
           <div>
             <label for="istimed">Enable Time Limit: </label>
-            <input id="istimed" type="checkbox" v-on:click="toggleTimeField();">
+            <input id="istimed" type="checkbox" v-model="time" v-on:click="toggleTimeField();">
           </div>
           <div id="time-field">
             <label for="time">Time (Minutes): </label>
-            <input id="time" type="number" value="0">
+            <input id="time" type="number" v-model="time_num" value="0">
           </div>
           <div>
-            <button type="submit"><span class="oi green" data-glyph="check" title="Check" aria-hidden="true" /> Add Profile</button>
+            <button type="submit" @click="addProfile()"><span class="oi green" data-glyph="check" title="Check" aria-hidden="true" /> Add Profile</button>
           </div>
         </form>
       </div>
@@ -92,6 +113,23 @@
   import json2 from "../data/tests/tests.json"
   export default {
     name: 'Profiles',
+    data () {
+      return {
+        finished:[],
+        possible:[],
+        pdfs:[],
+        name:"",
+        type:"",
+        pdf:"",
+        questionNum:"",
+        time:false,
+        time_num:0,
+        reading:false,
+        writing:false,
+        nocalc:false,
+        calc:false,
+      }
+    },
     methods: {
       openAddProfile () {
         document.getElementById("overlay-full").style.display = "flex";
@@ -104,7 +142,26 @@
           timeField.style.display = "flex";
       },
       addProfile() {
-
+        const fs = require('fs');
+        if (!Object.keys(json).includes(this.name)) {
+          let tempJSON=json;
+          let fields=[];
+          if (this.reading) {
+            fields.push("Reading");
+          }
+          if (this.writing) {
+            fields.push("Writing");
+          }
+          if (this.calc) {
+            fields.push("Math (calculator)");
+          }
+          if (this.nocalc) {
+            fields.push("Math");
+          }
+          tempJSON["name"]={"name":this.name,"type":this.type,"fields":fields,"qnum":this.questionNum,"time":this.time_num,"finished":true,"pdf":this.pdf};
+          try { fs.writeFileSync("src/data/profiles/profiles.json", JSON.stringify(tempJSON), 'utf-8'); }
+          catch(e) { alert(e); }
+        } 
       },
       closeDialog () {
         document.getElementById("overlay-full").style.display = "none";
@@ -112,14 +169,8 @@
       stopPropogation (event) {
         event.stopPropagation();
       },
-    },
-    data () {
-      return {
-        finished:[],
-        possible:[],
-        pdfs:[],
-      }
-    }, mounted () {
+    }, 
+    mounted () {
       for (let item of Object.keys(json)) {
         if (json[item]["finished"]) {
           this.finished.push(json[item]);
