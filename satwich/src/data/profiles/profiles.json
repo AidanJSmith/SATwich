@@ -1,1 +1,28 @@
-"{\"Example\":{\"name\":\"Example\",\"type\":\"SAT\",\"fields\":[\"reading\",\"writing\",\"math\"],\"qnum\":\"16\",\"time\":\"45\",\"finished\":true,\"pdf\":\"nameofpdfdir\"},\"Example2\":{\"name\":\"Example\",\"type\":\"SAT\",\"fields\":[\"reading\",\"writing\",\"math\"],\"qnum\":\"16\",\"time\":\"45\",\"finished\":false,\"pdf\":\"nameofpdfdir\"}}"
+{
+  "Example": {
+    "name": "Example",
+    "type": "SAT",
+    "fields": [
+      "reading",
+      "writing",
+      "math"
+    ],
+    "qnum": "16",
+    "time": "45",
+    "finished": true,
+    "pdf": "nameofpdfdir"
+  },
+  "Example2": {
+    "name": "Example",
+    "type": "SAT",
+    "fields": [
+      "reading",
+      "writing",
+      "math"
+    ],
+    "qnum": "16",
+    "time": "45",
+    "finished": false,
+    "pdf": "nameofpdfdir"
+  }
+}
