@@ -23,7 +23,7 @@
           </div>
         </div>
     </section>
-    <h2>Your Profiles <span class="oi green" data-glyph="plus" title="Add Profile" aria-hidden="true" v-on:click="openAddProfile();"></span></h2>
+    <h2>Your Profiles <span id="add-profile" class="oi green" data-glyph="plus" title="Add Profile" aria-hidden="true" v-on:click="openAddProfile();"></span></h2>
     <section class="flex-wrap">
         <div class="card" v-for="item in finished" :key="item.name">
           <div class="title-bar">
@@ -178,6 +178,10 @@
 
   #time-field {
     display: none;
+  }
+
+  #add-profile {
+    cursor: pointer;
   }
 
   h1 {
