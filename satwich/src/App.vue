@@ -58,4 +58,46 @@
     padding-top: 1rem;
     flex: 1 1;
   }
+
+  .flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .card {
+    border: #aaa 1px solid;
+    border-radius: 10px;
+    padding: 5px 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .card p {
+    font-family: 'nunitolight';
+    letter-spacing: 0;
+    line-height: 20px;
+  }
+
+  .card .title-bar {
+    display: flex;
+    height: 60px;
+  }
+
+  .card .title-bar > * {
+    margin: 0;
+    line-height: 60px;
+  }
+
+  .card .title-bar > h3 {
+    margin-left: 0.5rem;
+  }
+
+  .card .title-bar > img {
+    border: #ddd 1px solid;
+    border-radius: 50%;
+    padding: 2px;
+    margin: 7px;
+    margin-left: 0;
+    width: 40px;
+  }
 </style>
