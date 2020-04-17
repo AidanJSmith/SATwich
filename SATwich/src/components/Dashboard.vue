@@ -16,35 +16,35 @@
             <img src="../assets/img/snd_cheese.svg" alt="Cheese" />
             <h3>Accuracy</h3>
           </div>
-          <p>On average, you miss <b>{{Math.round((read_correct+write_correct+calc_correct+nocalc_correct)/(read_total+write_total+calc_total+nocalc_total)*100) }}</b> out of every <b>100</b> questions. This is <b>average</b>!</p>
+          <p>On average, you miss <b>{{Math.round((read_correct+write_correct+calc_correct+nocalc_correct)/(read_total+write_total+calc_total+nocalc_total)*100) }}</b> out of every <b>100</b> questions. This is <b>{{rate((read_correct+write_correct+calc_correct+nocalc_correct)/(read_total+write_total+calc_total+nocalc_total)*100)}}</b>!</p>
         </div>
         <div class="card">
           <div class="title-bar">
             <img src="../assets/img/snd_bacon.svg" alt="Bacon" />
             <h3>Reading</h3>
           </div>
-          <p>Your score for reading is <b>{{Math.round(read_correct*100/read_total)}}%</b> or <b>{{read_correct}}/{{read_total}}</b> questions answered correctly. This is <b>good</b>!</p>
+          <p>Your score for reading is <b>{{Math.round(read_correct*100/read_total)}}%</b> or <b>{{read_correct}}/{{read_total}}</b> questions answered correctly. This is <b>{{rate(read_correct*100/read_total)}}</b>!</p>
         </div>
         <div class="card">
           <div class="title-bar">
             <img src="../assets/img/snd_tomato.svg" alt="Tomato" />
             <h3>Writing</h3>
           </div>
-          <p>Your score for writing is <b>{{Math.round(write_correct*100/write_total)}}%</b> or <b>{{write_correct}}/{{write_total}}</b> questions answered correctly. This is <b>good</b>!</p>
+          <p>Your score for writing is <b>{{Math.round(write_correct*100/write_total)}}%</b> or <b>{{write_correct}}/{{write_total}}</b> questions answered correctly. This is <b>{{rate(write_correct*100/write_total)}}</b>!</p>
         </div>
         <div class="card">
           <div class="title-bar">
             <img src="../assets/img/snd_leaf.svg" alt="Greens" />
             <h3>Math</h3>
           </div>
-          <p>Your score for math is <b>{{Math.round(nocalc_correct*100/nocalc_total)}}%</b> or <b>{{nocalc_correct}}/{{nocalc_total}}</b> questions answered correctly. This is <b>good</b>!</p>
+          <p>Your score for math is <b>{{Math.round(nocalc_correct*100/nocalc_total)}}%</b> or <b>{{nocalc_correct}}/{{nocalc_total}}</b> questions answered correctly. This is <b>{{rate(nocalc_correct*100/nocalc_total)}}</b>!</p>
         </div>
         <div class="card">
           <div class="title-bar">
             <img src="../assets/img/snd_bread.svg" alt="Bread" />
             <h3>Math <span class="oi" data-glyph="calculator" title="Calculator" aria-hidden="true"></span></h3>
           </div>
-          <p>Your score for math is <b>{{Math.round(calc_correct*100/calc_total)}}%</b> or <b>{{calc_correct}}/{{calc_total}}</b> questions answered correctly. This is <b>good</b>!</p>
+          <p>Your score for math is <b>{{Math.round(calc_correct*100/calc_total)}}%</b> or <b>{{calc_correct}}/{{calc_total}}</b> questions answered correctly. This is <b>{{rate(calc_correct*100/calc_total)}}</b>!</p>
         </div>
       </section>
     </section>
@@ -81,7 +81,23 @@ export default {
     this.calc_total=parsed["calc"]["total"]
     this.nocalc_correct=parsed["nocalc"]["correct"]
     this.nocalc_total=parsed["nocalc"]["total"]
-  }
+  },
+  methods: {
+    rate(number) {
+        if (number>=90) {
+          return "excellent" 
+        } else if (number>=80) {
+          return "good"
+        } else if (number>=70) {
+          return "okay"
+        } else if (number>=40) {
+          return "passable"
+        } else {
+          return "bad"
+        }
+
+    }
+  },
 
 }
 </script>
