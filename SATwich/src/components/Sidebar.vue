@@ -2,7 +2,7 @@
   <nav id="nav">
     <ul class="nav-group">
       <li>
-        <router-link to="Dashboard">
+        <router-link to="/">
           <button class="nav-button"><div class="nav-icon"><img src="../assets/img/snd.svg" alt="Home" /></div>Dashboard</button>
         </router-link>
       </li>
@@ -10,12 +10,12 @@
     <hr>
     <ul class="nav-group">
       <li>
-        <router-link to="Example">
           <button class="nav-button"><div class="nav-icon"><span class="oi red" data-glyph="book" title="Your Tests" aria-hidden="true"></span></div>Your Tests</button>
-        </router-link>
       </li>
       <li>
-        <button class="nav-button"><div class="nav-icon"><span class="oi orange" data-glyph="pencil" title="Profiles" aria-hidden="true"></span></div>Test Profiles</button>
+        <router-link to="Profiles">
+          <button class="nav-button"><div class="nav-icon"><span class="oi orange" data-glyph="pencil" title="Profiles" aria-hidden="true"></span></div>Test Profiles</button>
+        </router-link>
       </li>
       <li>
         <button class="nav-button"><div class="nav-icon"><span class="oi gold" data-glyph="graph" title="Analytics" aria-hidden="true"></span></div>Test Analytics</button>
