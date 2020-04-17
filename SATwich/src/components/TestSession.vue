@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h1>Test - {{testname}}</h1>
+    <h1>Test - </h1>
     <section class="flex">
-      <h2>Section: {{section}}</h2>
+      <h2>Section: </h2>
       <section class="flex right">
         <div>
           <span class="oi orange" data-glyph="media-pause" title="Stop Test" aria-hidden="true"></span>
@@ -24,23 +24,23 @@
       </section>
       <section>
         <div class="card question">
-          <h2>Question #{{qnum}}</h2>
+          <h2>Question #</h2>
           <p>It looks like Arthur has some text and a test and some words and also a computer. What does he do?</p>
           <div id="answers">
-            <label class="container"><b>Option One</b>
-              <input type="checkbox" checked="checked">
+            <label class="container" @click="resetOtherChoices($this)"><b>Option One</b>
+              <input type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
-            <label class="container"><b>Option Two</b>
-              <input type="checkbox">
+            <label class="container" @click="resetOtherChoices($this)"><b>Option Two</b>
+              <input type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
-            <label class="container"><b>Option Three</b>
-              <input type="checkbox">
+            <label class="container" @click="resetOtherChoices($this)"><b>Option Three</b>
+              <input type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
-            <label class="container"><b>Option Four</b>
-              <input type="checkbox">
+            <label class="container" @click="resetOtherChoices($this)"><b>Option Four</b>
+              <input type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
           </div>
@@ -56,6 +56,11 @@
 <script>
 export default {
   name: 'TestSession',
+  methods: {
+    resetOtherChoices(node) {
+      document.querySelectorAll(".choice").forEach((x) => x.checked = false); // lol it just prevents anything from being clicked ig
+    }
+  },
   mounted() {
     document.getElementById("sidebar").classList.add("collapsed");
   }
