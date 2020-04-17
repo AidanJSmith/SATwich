@@ -49,7 +49,7 @@
       <div v-on:click="stopPropogation($event);">
         <h2>Add A Profile</h2>
         <br>
-        <form action="idk lol">
+        <form>
           <div>
             <label for="name">Name: </label>
             <input id="name" type="text">
@@ -61,8 +61,8 @@
             </select>
           </div>
           <div>
-            <label for="test">Test PDF: </label>
-            <select id="test">
+            <label for="pdf">Test PDF: </label>
+            <select id="pdf">
               <option v-for="pdf in pdfs" :key="pdf">{{pdf}}</option>
             </select>
           </div>
