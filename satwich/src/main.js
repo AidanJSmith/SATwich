@@ -5,6 +5,7 @@ import Dashboard from "./components/Dashboard.vue"
 import Tests from "./components/Tests.vue"
 import Profiles from "./components/Profiles.vue"
 import Analytics from "./components/Analytics.vue"
+import TestSession from "./components/TestSession.vue"
 Vue.use(VueRouter)
 Vue.config.productionTip = false
 
@@ -29,6 +30,11 @@ const router= new VueRouter({
       path: '/analytics',
       name: 'Analytics',
       component: Analytics
+    },
+    {
+      path: '/session',
+      name: 'Session',
+      component: TestSession
     },
   ]
 })

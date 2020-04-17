@@ -17,8 +17,10 @@
             <p>{{item.time==0 ? "N/A" : item.time}}</p>
           </div>
           <div class="overlay-actions">
-            <span class="oi text-big orange" data-glyph="media-play" title="Resume Test" aria-hidden="true"></span>
-            <p><b>Resume Test</b></p>
+            <router-link to="/session" class="vflex">
+              <span class="oi text-big orange" data-glyph="media-play" title="Resume Test" aria-hidden="true"></span>
+              <p><b>Resume Test</b></p>
+            </router-link>
             <p class="text-small"><span class="oi" data-glyph="media-stop" title="End Test" aria-hidden="true"></span> End Test</p>
           </div>
         </div>
@@ -39,8 +41,10 @@
             <p>{{item.time==0 ? "N/A" : item.time}}</p>
           </div>
           <div class="overlay-actions">
-            <span class="oi text-big green" data-glyph="media-play" title="Start Test" aria-hidden="true"></span>
-            <p><b>Start Test</b></p>
+            <router-link to="/session" class="vflex">
+              <span class="oi text-big green" data-glyph="media-play" title="Start Test" aria-hidden="true"></span>
+              <p><b>Start Test</b></p>
+            </router-link>
             <p class="text-small"><span class="oi" data-glyph="trash" title="Remove Profile" aria-hidden="true"></span> Remove Profile</p>
           </div>
         </div>
@@ -239,6 +243,15 @@
     right: 0;
     bottom: 0;
     left: 0;
+  }
+
+  .overlay-actions .vflex {
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-decoration: none;
   }
 
   .text-big {

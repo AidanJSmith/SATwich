@@ -190,6 +190,10 @@
     cursor: pointer;
   }
 
+  .red {
+    color: #FF000A;
+  }
+
   .green {
     color: #8cc63f;
   }
