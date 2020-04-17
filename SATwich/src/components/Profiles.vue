@@ -72,22 +72,22 @@
           </div>
            <div>
             <label for="fields">Sections: </label>
-              <div class="collumn">
+              <div class="column">
                 <div class="row">
-                  <label for="istimed">Reading </label>
-                  <input id="istimed" type="checkbox" v-model="reading">
+                  <label for="reading">Reading </label>
+                  <input id="reading" type="checkbox" v-model="reading">
                 </div>
                 <div class="row">
-                  <label for="istimed">Writing </label>
-                  <input id="istimed" type="checkbox" v-model="writing">
+                  <label for="writing">Writing </label>
+                  <input id="writing" type="checkbox" v-model="writing">
                 </div>
                 <div class="row">
-                  <label for="istimed">Math </label>
-                  <input id="istimed" type="checkbox" v-model="nocalc">
+                  <label for="math">Math </label>
+                  <input id="math" type="checkbox" v-model="nocalc">
                 </div>
                 <div class="row">
-                  <label for="istimed">Math (calculator) </label>
-                  <input id="istimed" type="checkbox" v-model="calc">
+                  <label for="cmath">Math (calculator) </label>
+                  <input id="cmath" type="checkbox" v-model="calc">
                 </div>
               </div>
           </div>
