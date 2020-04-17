@@ -50,56 +50,56 @@
         <h2>Add A Profile</h2>
         <br>
         <form>
-          <div>
+          <div class="row">
             <label for="name">Name: </label>
             <input id="name" type="text" v-model="name">
           </div>
-          <div>
+          <div class="row">
             <label for="test">Test Type: </label>
             <select id="test" v-model="type">
               <option>SAT</option>
             </select>
           </div>
-          <div>
+          <div class="row">
             <label for="pdf">Test PDF: </label>
             <select id="pdf" v-model="pdf">
               <option v-for="pdf in pdfs" :key="pdf">{{pdf}}</option>
             </select>
           </div>
-          <div>
+          <div class="row">
             <label for="questions">Questions: </label>
             <input id="questions" type="number" v-model="questionNum">
           </div>
-           <div>
+          <div class="row">
             <label for="fields">Sections: </label>
-              <div class="column">
-                <div class="row">
-                  <label for="reading">Reading </label>
-                  <input id="reading" type="checkbox" v-model="reading">
-                </div>
-                <div class="row">
-                  <label for="writing">Writing </label>
-                  <input id="writing" type="checkbox" v-model="writing">
-                </div>
-                <div class="row">
-                  <label for="math">Math </label>
-                  <input id="math" type="checkbox" v-model="nocalc">
-                </div>
-                <div class="row">
-                  <label for="cmath">Math (calculator) </label>
-                  <input id="cmath" type="checkbox" v-model="calc">
-                </div>
+            <div class="column">
+              <div class="row">
+                <label for="reading">Reading </label>
+                <input id="reading" type="checkbox" v-model="reading">
               </div>
+              <div class="row">
+                <label for="writing">Writing </label>
+                <input id="writing" type="checkbox" v-model="writing">
+              </div>
+              <div class="row">
+                <label for="math">Math </label>
+                <input id="math" type="checkbox" v-model="nocalc">
+              </div>
+              <div class="row">
+                <label for="cmath">Math (calculator) </label>
+                <input id="cmath" type="checkbox" v-model="calc">
+              </div>
+            </div>
           </div>
-          <div>
+          <div class="row">
             <label for="istimed">Enable Time Limit: </label>
             <input id="istimed" type="checkbox" v-model="time" v-on:click="toggleTimeField();">
           </div>
-          <div id="time-field">
+          <div id="time-field" class="row">
             <label for="time">Time (Minutes): </label>
             <input id="time" type="number" v-model="time_num" value="0">
           </div>
-          <div>
+          <div class="row">
             <button type="submit" @click="addProfile()"><span class="oi green" data-glyph="check" title="Check" aria-hidden="true" /> Add Profile</button>
           </div>
         </form>
@@ -204,14 +204,14 @@
     width: 500px;
   }
 
-  form > div {
+  form .row {
     display: flex;
     font-family: 'nunitolight';
     letter-spacing: 0;
     line-height: 20px;
   }
 
-  form > div > * {
+  form .row > * {
     flex: 1 1;
   }
 
