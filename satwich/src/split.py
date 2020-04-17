@@ -74,7 +74,7 @@ def parse_reading(start, end,pages):
                     
         #So, I *think* questions are going to look like questionNum\n\n\n?
 
-    for page in reading_pages:
+    for num,page in enumerate(reading_pages):
         if "D)" not in page.split(keyword)[0]:
             searching_question=False
         elif keyword in page.lower():
@@ -92,7 +92,7 @@ def parse_reading(start, end,pages):
             # Increment passage & question
             currentpassage += 1
             # Add the passage to the array and set it to the current one
-            reading.update( {str(currentpassage) : ["", {}]} )
+            reading.update( {str(currentpassage) : ["", {},[]]} )
             #passage = reading[currentpassage][0] #I think this is the problem. You can't assign to a mem location like this in python? smh
 
             formattedquestion = "\n{0}".format(currentquestion)
@@ -115,7 +115,7 @@ def parse_reading(start, end,pages):
                 if "Figure 1" not in question and "Figure 2" not in question and "D)" in question:  # Ignore figures, if they split through
                     reading[str(currentpassage)][1].update( {str(currentquestion) : re.sub("[\s\S]+?(?=\n{2})","",question) })
                     currentquestion+=1
-            
+        reading[str(currentpassage)][2].append(num+start)
     return sanitize_reading(reading)
     
 #Writing parser
@@ -128,7 +128,7 @@ def parse_writing(start, end,pages):
     currentquestion = 1
     temp_info=""
     temp_questions={}
-    for page in writing_pages:
+    for num,page in enumerate(writing_pages):
         temp_questions={}
         modpage=page
         if keyword in page.lower():                                                     # Start the construction for a passage start
@@ -148,24 +148,29 @@ def parse_writing(start, end,pages):
             temp_questions.update({str(currentquestion) : question })
             currentquestion+=1
         # Find the text, append it to a new page object of the current passage object
-        writing[str(currentpassage)].append([temp_info,temp_questions])                 # Write the current page to the correct passage subheader.
+        writing[str(currentpassage)].append([temp_info,temp_questions,num+start])                 # Write the current page to the correct passage subheader.
     return sanitize_writing(writing)
  
  
 #Math parser (Nemo's Job, lucky him)
 
 #CalcMath parser (Nemo's Job, lucky him)
-def getTest(pdf="./data/example.pdf",testname="example"):
-    if not os.path.isdir("./data/{0}".format(testname)):
-        os.makedirs("./data/{0}".format(testname))
+def getTest(pdf="./data/tests/example.pdf",testname="example"):
+    if not os.path.isdir("./data/tests/{0}".format(testname)):
+        os.makedirs("./data/tests/{0}".format(testname))
+        os.makedirs("./data/tests/{0}/images".format(testname))
     pdffile = pdf  # Some url to PDF
     doc = fitz.open(pdffile)        # This is a generator.
     page = doc.loadPage(1)          # Load some page
     pages=[]                        # Array of all pages
+    pages_raw=[]
     for page in doc:                # Init pages
         pages.append(page.getText())
+        pages_raw.append(page)
+        pix = page.getPixmap()
+        output = "./data/tests/{0}/images/{1}.png".format(testname,page.number)
+        pix.writePNG(output)
     lastpage=page
-
     startread=startwrite=startmath=startcalc=0
     for num,page in enumerate(pages):
         if("reading test" in page.lower()):
@@ -213,13 +218,9 @@ def getTest(pdf="./data/example.pdf",testname="example"):
             
     test={'reading':reading,"writing":writing,"key":key}  
     test = json.dumps(test)  
-    with open('./data/{0}/test.json'.format(testname), 'w') as f:
+    with open('./data/tests/{0}/test.json'.format(testname), 'w') as f:
         json.dump(test, f)
     return True
-    '''
-    pix = lastpage.getPixmap()
-    output = "./images/output.png"
-    pix.writePNG(output)
-    '''
+    
     
 print(getTest())
