@@ -12,10 +12,6 @@
   export default {
     name: 'Analytics',
     mounted() {
-      function randomScalingFactor() {
-        return Math.round(Math.random() * 20 + 80);
-      }
-
       var config = {
         type: 'line',
         data: {
@@ -25,13 +21,13 @@
             backgroundColor: '#f36b57',
             borderColor: '#f36b57',
             data: [
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor()
+              68,
+              75,
+              73,
+              80,
+              82,
+              83,
+              87
             ],
             fill: false,
           }, {
@@ -40,13 +36,13 @@
             backgroundColor: '#f7931e',
             borderColor: '#f7931e',
             data: [
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor()
+              65,
+              70,
+              77,
+              74,
+              80,
+              83,
+              84
             ],
           }, {
             label: 'Math',
@@ -54,13 +50,13 @@
             backgroundColor: '#8cc63f',
             borderColor: '#8cc63f',
             data: [
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor()
+              79,
+              76,
+              80,
+              82,
+              84,
+              83,
+              85
             ],
           }, {
             label: 'Math (Calculator)',
@@ -68,13 +64,13 @@
             backgroundColor: '#c1272d',
             borderColor: '#c1272d',
             data: [
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor(),
-              randomScalingFactor()
+              85,
+              88,
+              86,
+              90,
+              88,
+              91,
+              94
             ],
           }]
         },
