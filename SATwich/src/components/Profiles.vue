@@ -3,18 +3,18 @@
     <h1>Testing Profiles</h1>
     <h2>Your Unfinished Tests</h2>
     <section class="flex-wrap">
-        <div class="card">
+        <div class="card" v-for="item in possible" :key="item.name">
           <div class="title-bar">
             <img src="../assets/img/snd.svg" alt="Bread" />
-            <h3>Lunch Break</h3>
+            <h3>{{(item.name)}}</h3>
           </div>
-          <p><b>SAT Test 1</b></p>
-          <p>Reading, Math, Math Calc</p>
+          <p><b>{{item.pdf}}</b></p>
+          <p>{{item.fields.join(", ")}}</p>
           <div class="profile-info">
             <span class="oi" data-glyph="question-mark" title="Questions" aria-hidden="true"></span>
-            <p>16</p>
+            <p>{{item.qnum}}</p>
             <span class="oi" data-glyph="timer" title="Time" aria-hidden="true"></span>
-            <p>15.2</p>
+            <p>{{item.time}}</p>
           </div>
           <div class="overlay-actions">
             <span class="oi text-big orange" data-glyph="media-play" title="Resume Test" aria-hidden="true"></span>
@@ -25,37 +25,18 @@
     </section>
     <h2>Your Profiles</h2>
     <section class="flex-wrap">
-        <div class="card">
+        <div class="card" v-for="item in finished" :key="item.name">
           <div class="title-bar">
             <img src="../assets/img/snd.svg" alt="Bread" />
-            <h3>Lunch Break</h3>
+            <h3>{{(item.name)}}</h3>
           </div>
-          <p><b>SAT Test 1</b></p>
-          <p>Reading, Math, Math Calc</p>
+          <p><b>{{(item.name)}}</b></p>
+          <p>{{item.fields.join(", ")}}</p>
           <div class="profile-info">
             <span class="oi" data-glyph="question-mark" title="Questions" aria-hidden="true"></span>
-            <p>25</p>
+            <p>{{item.qnum}}</p>
             <span class="oi" data-glyph="timer" title="Time" aria-hidden="true"></span>
-            <p>35</p>
-          </div>
-          <div class="overlay-actions">
-            <span class="oi text-big green" data-glyph="media-play" title="Start Test" aria-hidden="true"></span>
-            <p><b>Start Test</b></p>
-            <p class="text-small"><span class="oi" data-glyph="trash" title="Remove Profile" aria-hidden="true"></span> Remove Profile</p>
-          </div>
-        </div>
-        <div class="card">
-          <div class="title-bar">
-            <img src="../assets/img/snd.svg" alt="Bread" />
-            <h3>Other One</h3>
-          </div>
-          <p><b>Reddit ACT 1</b></p>
-          <p>Math, Math Calc</p>
-          <div class="profile-info">
-            <span class="oi" data-glyph="question-mark" title="Questions" aria-hidden="true"></span>
-            <p>55</p>
-            <span class="oi" data-glyph="timer" title="Time" aria-hidden="true"></span>
-            <p>45</p>
+            <p>{{item.time}}</p>
           </div>
           <div class="overlay-actions">
             <span class="oi text-big green" data-glyph="media-play" title="Start Test" aria-hidden="true"></span>
@@ -68,8 +49,24 @@
 </template>
 
 <script>
+import json from "../data/profiles/profiles.json"
 export default {
-  name: 'Profiles'
+  name: 'Profiles',
+  data() {
+    return {
+      finished:[],
+      possible:[],
+    }
+  }, mounted () {
+    let parse=JSON.parse(json);
+    for (let item of Object.keys(parse)) {
+      if (parse[item]["finished"]) {
+        this.finished.push(parse[item])
+      } else {
+        this.possible.push(parse[item])
+      }
+    }
+  },
 }
 </script>
 
