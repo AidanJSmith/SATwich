@@ -28,28 +28,29 @@
           <p>{{choices.split("A)")[0]}}</p>
           <div id="answers">
             <label class="container" @click="resetOtherChoices(1)"><b>{{choices.split("A)")[1].split("B)")[0]}}</b>
-              <input id="1" type="radio" class="choice">
+              <input id="1" data-letter="A" type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
             <label class="container" @click="resetOtherChoices(2)"><b>{{choices.split("B)")[1].split("C)")[0]}}</b>
-              <input id="2" type="radio" class="choice">
+              <input id="2" data-letter="B" type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
             <label class="container" @click="resetOtherChoices(3)"><b>{{choices.split("C)")[1].split("D)")[0]}}</b>
-              <input id="3" type="radio" class="choice">
+              <input id="3" data-letter="C" type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
             <label class="container" @click="resetOtherChoices(4)"><b>{{choices.split("D)")[1]}}</b>
-              <input id="4" type="radio" class="choice">
+              <input id="4" data-letter="D" type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
           </div>
-          <div class="controls">
+          <div id="controls" class="controls">
             <button @click="checkAnswer()"><b>Submit</b></button>
           </div>
           <br>
           <div id="results" class="results">
-            <h2>Correct</h2>
+            <h2 id="feedback-text">{{ this.feedbackText }}</h2>
+            <button @click="getNextQuestion()"><b>Next Question</b></button>
           </div>
           <br>
         </div>
@@ -70,6 +71,7 @@ export default {
       choices:"A)B)C)D)",
       passage:"Please wait.",
       pages:[],
+      feedbackText: "Incorrect"
     }
   },
   mounted() {
@@ -79,7 +81,8 @@ export default {
   methods: {
     resetOtherChoices(t) {
       document.querySelectorAll(".choice").forEach((x) => x.checked = false);
-      document.getElementById(t).checked = true;
+      var clickedNode = document.getElementById(t);
+      if (clickedNode) clickedNode.checked = true;
     },
     updateData() {
       const fs = require("fs");
@@ -97,7 +100,28 @@ export default {
       if (this.choices!="A)B)C)D)") console.log("TIME TO GO TO NEXT SECTION"); // Go to Writing section
     },
     checkAnswer() {
-      document.getElementById("results").style.height = "100px";
+      const fs = require("fs");
+      let data = JSON.parse(fs.readFileSync(`src/data/tests/${json[this.$route.params.id]["pdf"]}/test.json`).toString());
+      data = JSON.parse(data);
+      let answer_key = data["key"];
+      if (answer_key["reading"][this.qnum] == document.querySelector("input.choice:checked").getAttribute("data-letter")) {
+        this.feedbackText = "Correct";
+        document.getElementById("feedback-text").style.backgroundColor = "#8cc63f77";
+      }
+      else {
+        this.feedbackText = "Incorrect";
+        document.getElementById("feedback-text").style.backgroundColor = "#f36b5755";
+      }
+
+      document.getElementById("controls").style.height = 0;
+      document.getElementById("results").style.height = "150px";
+    },
+    getNextQuestion() {
+      document.getElementById("controls").style.height = "unset";
+      document.getElementById("results").style.height = 0;
+      this.resetOtherChoices(0);
+      this.qnum++;
+      this.updateData();
     }
   },
   beforeDestroy() {
@@ -175,10 +199,10 @@ export default {
   .controls {
     display: flex;
     flex-direction: row;
-    padding-right: 20px;
+    overflow: hidden;
   }
 
-  .controls button {
+  .controls button, .results button {
     border: #aaa 1px solid;
     border-radius: 5px;
     padding: 0.5rem 1rem;
@@ -191,6 +215,12 @@ export default {
     text-align: center;
     height: 0;
     overflow: hidden;
+  }
+
+  #feedback-text {
+    padding: 1rem 0;
+    border-radius: 3px;
+    margin-top: 0;
   }
   
   /* Customize the label (the container) */
