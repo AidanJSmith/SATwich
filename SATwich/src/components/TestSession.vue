@@ -22,7 +22,7 @@
           <p class="passage">{{this.passage}}</p>
         </div>
       </section>
-      <section>
+      <section class="q-wrapper">
         <div class="card question">
           <h2>Question #{{qnum}}</h2>
           <p>{{choices.split("A)")[0]}}</p>
@@ -44,9 +44,10 @@
               <span class="checkmark"></span>
             </label>
           </div>
-        </div>
-        <div class="controls">
-          <button><b>Submit</b></button>
+          <div class="controls">
+            <button><b>Submit</b></button>
+          </div>
+          <br>
         </div>
       </section>
     </section>
@@ -69,7 +70,8 @@ export default {
   mounted() {
     document.getElementById("sidebar").classList.add("collapsed");
     this.updateData(); 
-  }, methods: {
+  }, 
+  methods: {
     resetOtherChoices(t) {
       document.querySelectorAll(".choice").forEach((x) => x.checked = false); // lol it just prevents anything from being clicked ig
       document.getElementById(t).checked = true;
@@ -149,6 +151,13 @@ export default {
 
   .passage {
     font-size: 1.3rem;
+    line-height: 1.8rem;
+  }
+
+  .question {
+    position: sticky;
+    top: 0;
+    flex: none;
   }
 
   .question p {
