@@ -32,7 +32,7 @@ const router= new VueRouter({
       component: Analytics
     },
     {
-      path: '/session',
+      path: '/session/:id',
       name: 'Session',
       component: TestSession
     },

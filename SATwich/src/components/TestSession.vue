@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Test - </h1>
+    <h1>Test - {{ this.$route.params.id }}</h1>
     <section class="flex">
       <h2>Section: </h2>
       <section class="flex right">
@@ -57,7 +57,7 @@
 export default {
   name: 'TestSession',
   methods: {
-    resetOtherChoices(node) {
+    resetOtherChoices() {
       document.querySelectorAll(".choice").forEach((x) => x.checked = false); // lol it just prevents anything from being clicked ig
     }
   },

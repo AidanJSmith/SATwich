@@ -41,7 +41,7 @@
             <p>{{item.time==0 ? "N/A" : item.time}}</p>
           </div>
           <div class="overlay-actions">
-            <router-link to="/session" class="vflex">
+            <router-link :to='"/session/" + encodeURIComponent(item.name)' class="vflex">
               <span class="oi text-big green" data-glyph="media-play" title="Start Test" aria-hidden="true"></span>
               <p><b>Start Test</b></p>
             </router-link>
