@@ -27,20 +27,20 @@
           <h2>Question #{{qnum}}</h2>
           <p>{{choices.split("A)")[0]}}</p>
           <div id="answers">
-            <label class="container" @click="resetOtherChoices($this)"><b>{{choices.split("A)")[1].split("B)")[0]}}</b>
-              <input type="radio" class="choice">
+            <label class="container" @click="resetOtherChoices(1)"><b>Option One</b>
+              <input id="1" type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
-            <label class="container" @click="resetOtherChoices($this)"><b>{{choices.split("B)")[1].split("C)")[0]}}</b>
-              <input type="radio" class="choice">
+            <label class="container" @click="resetOtherChoices(2)"><b>Option Two</b>
+              <input id="2" type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
-            <label class="container" @click="resetOtherChoices($this)"><b>{{choices.split("C)")[1].split("D)")[0]}}</b>
-              <input type="radio" class="choice">
+            <label class="container" @click="resetOtherChoices(3)"><b>Option Three</b>
+              <input id="3" type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
-            <label class="container" @click="resetOtherChoices($this)"><b>{{choices.split("D)")[1]}}</b>
-              <input type="radio" class="choice">
+            <label class="container" @click="resetOtherChoices(4)"><b>Option Four</b>
+              <input id="4" type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
           </div>
@@ -70,8 +70,9 @@ export default {
     document.getElementById("sidebar").classList.add("collapsed");
     this.updateData(); 
   }, methods: {
-     resetOtherChoices() {
+    resetOtherChoices(t) {
       document.querySelectorAll(".choice").forEach((x) => x.checked = false); // lol it just prevents anything from being clicked ig
+      document.getElementById(t).checked = true;
     },
     updateData() {
       const fs = require("fs");
@@ -94,7 +95,7 @@ export default {
       }
 
     }
-  },
+  }
 }
 </script>
 
