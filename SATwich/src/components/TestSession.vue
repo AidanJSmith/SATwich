@@ -27,19 +27,19 @@
           <h2>Question #{{qnum}}</h2>
           <p>{{choices.split("A)")[0]}}</p>
           <div id="answers">
-            <label class="container" @click="resetOtherChoices(1)"><b>Option One</b>
+            <label class="container" @click="resetOtherChoices(1)"><b>{{choices.split("A)")[1].split("B)")[0]}}</b>
               <input id="1" type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
-            <label class="container" @click="resetOtherChoices(2)"><b>Option Two</b>
+            <label class="container" @click="resetOtherChoices(2)"><b>{{choices.split("B)")[1].split("C)")[0]}}</b>
               <input id="2" type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
-            <label class="container" @click="resetOtherChoices(3)"><b>Option Three</b>
+            <label class="container" @click="resetOtherChoices(3)"><b>{{choices.split("C)")[1].split("D)")[0]}}</b>
               <input id="3" type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
-            <label class="container" @click="resetOtherChoices(4)"><b>Option Four</b>
+            <label class="container" @click="resetOtherChoices(4)"><b>{{choices.split("D)")[1]}}</b>
               <input id="4" type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
