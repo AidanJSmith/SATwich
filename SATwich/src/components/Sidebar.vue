@@ -13,7 +13,7 @@
     <hr>
     <ul class="nav-group">
       <li>
-        <router-link to="Tests">
+        <router-link to="/Tests">
           <button class="nav-button">
             <div class="nav-icon"><span class="oi red" data-glyph="book" title="Your Tests" aria-hidden="true"></span></div>
             <span class="hidden">Your Test PDFs</span>
@@ -21,7 +21,7 @@
         </router-link>
       </li>
       <li>
-        <router-link to="Profiles">
+        <router-link to="/Profiles">
           <button class="nav-button">
             <div class="nav-icon"><span class="oi orange" data-glyph="pencil" title="Profiles" aria-hidden="true"></span></div>
             <span class="hidden">Test Profiles</span>
@@ -29,7 +29,7 @@
         </router-link>
       </li>
       <li>
-        <router-link to="Analytics">
+        <router-link to="/Analytics">
           <button class="nav-button">
             <div class="nav-icon"><span class="oi gold" data-glyph="graph" title="Analytics" aria-hidden="true"></span></div>
             <span class="hidden">Test Analytics</span>
