@@ -68,6 +68,9 @@ import LoadingAnimation from "./LoadingAnimation.vue"
 
 export default {
   name: 'TestSession',
+  components: {
+    LoadingAnimation,
+  },
   data() {
     return {
       section: "Reading",
