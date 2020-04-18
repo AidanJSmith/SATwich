@@ -95,6 +95,9 @@ export default {
       }
 
     }
+  },
+  beforeDestroy() {
+    document.getElementById("sidebar").classList.remove("collapsed");
   }
 }
 </script>
