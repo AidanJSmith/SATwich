@@ -84,6 +84,12 @@ export default {
   mounted() {
     document.getElementById("sidebar").classList.add("collapsed");
     this.updateData(); 
+    setTimeout(() => {
+      document.getElementById("overlay-full").style.opacity = 0;
+      setTimeout(() => {
+        document.getElementById("overlay-full").style.display = "none";
+      }, 1000);
+    }, 5000);
   }, 
   methods: {
     resetOtherChoices(t) {
@@ -139,6 +145,30 @@ export default {
 </script>
 
 <style scoped>
+  #overlay-full {
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    left: 80px;
+    transition-duration: 1s;
+  }
+
+  #overlay-full > div {
+    width: 200px;
+    animation: fade-in 1s forwards;
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
   h1 {
     font-size: 3rem;
     margin-top: 2rem;
