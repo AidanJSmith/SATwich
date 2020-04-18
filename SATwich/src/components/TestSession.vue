@@ -56,11 +56,15 @@
         </div>
       </section>
     </section>
+    <section id="overlay-full">
+      <LoadingAnimation />
+    </section>
   </div>
 </template>
 
 <script>
 import json from "../data/profiles/profiles.json"
+import LoadingAnimation from "./LoadingAnimation.vue"
 
 export default {
   name: 'TestSession',

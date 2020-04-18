@@ -31,6 +31,10 @@
   @import url("https://use.typekit.net/eyp4egm.css");
   @import url('./assets/fonts/open-iconic.min.css');
 
+  ::selection {
+    background-color: #fdca92;
+  }
+
   body {
     height: 100%;
     margin: 0;
@@ -139,7 +143,6 @@
     width: 40px;
   }
 
-  
   #overlay-full {
     background-color: #0004;
     display: none;
