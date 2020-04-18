@@ -2,7 +2,7 @@
   <div>
     <h1>Test - {{ this.$route.params.id }}</h1>
     <section class="flex">
-      <h2>Section: </h2>
+      <h2>Section: {{ section }}</h2>
       <section class="flex right">
         <div>
           <span class="oi orange" data-glyph="media-pause" title="Stop Test" aria-hidden="true"></span>
@@ -18,8 +18,8 @@
       <section class="flex-big">
         <div class="card">
           <h2>Passage</h2>
-          <p>Show Original PDF Page</p>
-          <p class="passage">{{this.passage}}</p>
+          <p>Show Original PDF Pages</p>
+          <p class="passage">{{passage}}</p>
         </div>
       </section>
       <section class="q-wrapper">
@@ -45,7 +45,11 @@
             </label>
           </div>
           <div class="controls">
-            <button><b>Submit</b></button>
+            <button @click="checkAnswer()"><b>Submit</b></button>
+          </div>
+          <br>
+          <div id="results" class="results">
+            <h2>Correct</h2>
           </div>
           <br>
         </div>
@@ -61,7 +65,8 @@ export default {
   name: 'TestSession',
   data() {
     return {
-      qnum: 38,
+      section: "Reading",
+      qnum: 1,
       choices:"A)B)C)D)",
       passage:"Please wait.",
       pages:[],
@@ -73,29 +78,26 @@ export default {
   }, 
   methods: {
     resetOtherChoices(t) {
-      document.querySelectorAll(".choice").forEach((x) => x.checked = false); // lol it just prevents anything from being clicked ig
+      document.querySelectorAll(".choice").forEach((x) => x.checked = false);
       document.getElementById(t).checked = true;
     },
     updateData() {
       const fs = require("fs");
-      let data =(JSON.parse(fs.readFileSync(`src/data/tests/${json[this.$route.params.id]["pdf"]}/test.json`).toString()));
+      let data = JSON.parse(fs.readFileSync(`src/data/tests/${json[this.$route.params.id]["pdf"]}/test.json`).toString());
       data = JSON.parse(data);
-      for (let key of Object.keys(data["reading"])) {
-          if (this.choices!="A)B)C)D)") {
-            break;
-          }
-          this.passage=data["reading"][key][0];
-          this.pages=data["reading"][key][2];
-          for (let question_key of Object.keys(data["reading"][key][1])) {
-             if (question_key==this.qnum+1) {
-               this.choices=data["reading"][key][1][question_key];
-             }
-          }
+      let reading = data["reading"];           // Get reading section
+      for (let key of Object.keys(reading)) {
+          let set = reading[key];              // Get set of questions, passage, etc
+          this.passage = set[0];               // Get the passage text
+          this.pages =   set[2];               // Get the pages the text can be found on
+          for (let question_key of Object.keys(set[1]))
+             if (question_key == this.qnum+1)  // If question matches current one, get answer choices
+               this.choices= set[1][question_key];
       }
-      if (this.choices!="A)B)C)D)") {
-          console.log("TIME TO GO TO NEXT SECTION");
-      }
-
+      if (this.choices!="A)B)C)D)") console.log("TIME TO GO TO NEXT SECTION"); // Go to Writing section
+    },
+    checkAnswer() {
+      document.getElementById("results").style.height = "100px";
     }
   },
   beforeDestroy() {
@@ -104,7 +106,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   h1 {
     font-size: 3rem;
@@ -183,6 +184,13 @@ export default {
     padding: 0.5rem 1rem;
     flex: 1 1;
     line-height: 2rem;
+  }
+
+  .results {
+    transition-duration: 0.5s;
+    text-align: center;
+    height: 0;
+    overflow: hidden;
   }
   
   /* Customize the label (the container) */
