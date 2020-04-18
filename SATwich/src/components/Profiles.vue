@@ -167,6 +167,9 @@
           catch(e) { alert(e); }
         } 
       },
+      startTest(item) {
+        console.log(item)
+      },
       closeDialog () {
         document.getElementById("overlay-full").style.display = "none";
       },

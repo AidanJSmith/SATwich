@@ -19,27 +19,27 @@
         <div class="card">
           <h2>Passage</h2>
           <p>Show Original PDF Page</p>
-          <p class="passage">Probably some test content goes here</p>
+          <p class="passage">{{this.passage}}</p>
         </div>
       </section>
       <section>
         <div class="card question">
-          <h2>Question #</h2>
-          <p>It looks like Arthur has some text and a test and some words and also a computer. What does he do?</p>
+          <h2>Question #{{qnum}}</h2>
+          <p>{{choices.split("A)")[0]}}</p>
           <div id="answers">
-            <label class="container" @click="resetOtherChoices($this)"><b>Option One</b>
+            <label class="container" @click="resetOtherChoices($this)"><b>{{choices.split("A)")[1].split("B)")[0]}}</b>
               <input type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
-            <label class="container" @click="resetOtherChoices($this)"><b>Option Two</b>
+            <label class="container" @click="resetOtherChoices($this)"><b>{{choices.split("B)")[1].split("C)")[0]}}</b>
               <input type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
-            <label class="container" @click="resetOtherChoices($this)"><b>Option Three</b>
+            <label class="container" @click="resetOtherChoices($this)"><b>{{choices.split("C)")[1].split("D)")[0]}}</b>
               <input type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
-            <label class="container" @click="resetOtherChoices($this)"><b>Option Four</b>
+            <label class="container" @click="resetOtherChoices($this)"><b>{{choices.split("D)")[1]}}</b>
               <input type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
@@ -54,16 +54,47 @@
 </template>
 
 <script>
+import json from "../data/profiles/profiles.json"
+
 export default {
   name: 'TestSession',
-  methods: {
-    resetOtherChoices() {
-      document.querySelectorAll(".choice").forEach((x) => x.checked = false); // lol it just prevents anything from being clicked ig
+  data() {
+    return {
+      qnum: 38,
+      choices:"A)B)C)D)",
+      passage:"Please wait.",
+      pages:[],
     }
   },
   mounted() {
     document.getElementById("sidebar").classList.add("collapsed");
-  }
+    this.updateData(); 
+  }, methods: {
+     resetOtherChoices() {
+      document.querySelectorAll(".choice").forEach((x) => x.checked = false); // lol it just prevents anything from being clicked ig
+    },
+    updateData() {
+      const fs = require("fs");
+      let data =(JSON.parse(fs.readFileSync(`src/data/tests/${json[this.$route.params.id]["pdf"]}/test.json`).toString()));
+      data = JSON.parse(data);
+      for (let key of Object.keys(data["reading"])) {
+          if (this.choices!="A)B)C)D)") {
+            break;
+          }
+          this.passage=data["reading"][key][0];
+          this.pages=data["reading"][key][2];
+          for (let question_key of Object.keys(data["reading"][key][1])) {
+             if (question_key==this.qnum+1) {
+               this.choices=data["reading"][key][1][question_key];
+             }
+          }
+      }
+      if (this.choices!="A)B)C)D)") {
+          console.log("TIME TO GO TO NEXT SECTION");
+      }
+
+    }
+  },
 }
 </script>
 
