@@ -27,20 +27,20 @@
           <h2>Question #</h2>
           <p>It looks like Arthur has some text and a test and some words and also a computer. What does he do?</p>
           <div id="answers">
-            <label class="container" @click="resetOtherChoices($this)"><b>Option One</b>
-              <input type="radio" class="choice">
+            <label class="container" @click="resetOtherChoices(1)"><b>Option One</b>
+              <input id="1" type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
-            <label class="container" @click="resetOtherChoices($this)"><b>Option Two</b>
-              <input type="radio" class="choice">
+            <label class="container" @click="resetOtherChoices(2)"><b>Option Two</b>
+              <input id="2" type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
-            <label class="container" @click="resetOtherChoices($this)"><b>Option Three</b>
-              <input type="radio" class="choice">
+            <label class="container" @click="resetOtherChoices(3)"><b>Option Three</b>
+              <input id="3" type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
-            <label class="container" @click="resetOtherChoices($this)"><b>Option Four</b>
-              <input type="radio" class="choice">
+            <label class="container" @click="resetOtherChoices(4)"><b>Option Four</b>
+              <input id="4" type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
           </div>
@@ -57,8 +57,9 @@
 export default {
   name: 'TestSession',
   methods: {
-    resetOtherChoices() {
+    resetOtherChoices(t) {
       document.querySelectorAll(".choice").forEach((x) => x.checked = false); // lol it just prevents anything from being clicked ig
+      document.getElementById(t).checked = true;
     }
   },
   mounted() {
