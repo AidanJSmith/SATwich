@@ -2,7 +2,7 @@
   <div>
     <h1>Test - {{ this.$route.params.id }}</h1>
     <section class="flex">
-      <h2>Section: {{ section }}</h2>
+      <h2>Section: </h2>
       <section class="flex right">
         <div>
           <span class="oi orange" data-glyph="media-pause" title="Stop Test" aria-hidden="true"></span>
@@ -18,7 +18,7 @@
       <section class="flex-big">
         <div class="card">
           <h2>Passage</h2>
-          <p>Show Original PDF Pages</p>
+          <p>Show Original PDF Page</p>
           <p class="passage" v-html="passage"></p>
         </div>
       </section>
@@ -28,120 +28,75 @@
           <p>{{choices.split("A)")[0]}}</p>
           <div id="answers">
             <label class="container" @click="resetOtherChoices(1)"><b>{{choices.split("A)")[1].split("B)")[0]}}</b>
-              <input id="1" data-letter="A" type="radio" class="choice">
+              <input id="1" type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
             <label class="container" @click="resetOtherChoices(2)"><b>{{choices.split("B)")[1].split("C)")[0]}}</b>
-              <input id="2" data-letter="B" type="radio" class="choice">
+              <input id="2" type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
             <label class="container" @click="resetOtherChoices(3)"><b>{{choices.split("C)")[1].split("D)")[0]}}</b>
-              <input id="3" data-letter="C" type="radio" class="choice">
+              <input id="3" type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
             <label class="container" @click="resetOtherChoices(4)"><b>{{choices.split("D)")[1]}}</b>
-              <input id="4" data-letter="D" type="radio" class="choice">
+              <input id="4" type="radio" class="choice">
               <span class="checkmark"></span>
             </label>
           </div>
-          <div id="controls" class="controls">
-            <button @click="checkAnswer()"><b>Submit</b></button>
-          </div>
-          <br>
-          <div id="results" class="results">
-            <h2 id="feedback-text">{{ this.feedbackText }}</h2>
-            <button @click="getNextQuestion()"><b>Next Question</b></button>
+          <div class="controls">
+            <button><b>Submit</b></button>
           </div>
           <br>
         </div>
       </section>
-    </section>
-    <section id="overlay-full">
-      <LoadingAnimation />
     </section>
   </div>
 </template>
 
 <script>
 import json from "../data/profiles/profiles.json"
-import LoadingAnimation from "./LoadingAnimation.vue"
 
 export default {
   name: 'TestSession',
-  components: {
-    LoadingAnimation,
-  },
   data() {
     return {
-      section: "Reading",
-      qnum: 1,
+      qnum: 27,
       choices:"A)B)C)D)",
       passage:"Please wait.",
       pages:[],
-      feedbackText: "Incorrect"
     }
   },
   mounted() {
     document.getElementById("sidebar").classList.add("collapsed");
     this.updateData(); 
-    setTimeout(() => {
-      document.getElementById("overlay-full").style.opacity = 0;
-      setTimeout(() => {
-        document.getElementById("overlay-full").style.display = "none";
-      }, 1000);
-    }, 5000);
   }, 
   methods: {
     resetOtherChoices(t) {
-      document.querySelectorAll(".choice").forEach((x) => x.checked = false);
-      var clickedNode = document.getElementById(t);
-      if (clickedNode) clickedNode.checked = true;
+      document.querySelectorAll(".choice").forEach((x) => x.checked = false); // lol it just prevents anything from being clicked ig
+      document.getElementById(t).checked = true;
     },
     updateData() {
       const fs = require("fs");
-      let data = JSON.parse(fs.readFileSync(`src/data/tests/${json[this.$route.params.id]["pdf"]}/test.json`).toString());
+      let data =(JSON.parse(fs.readFileSync(`src/data/tests/${json[this.$route.params.id]["pdf"]}/test.json`).toString()));
       data = JSON.parse(data);
-      let found=false;
-      let reading = data["reading"];           // Get reading section
-      for (let key of Object.keys(reading)) {
-          if (found) break;
-          let set = reading[key];              // Get set of questions, passage, etc
-          for (let question_key of Object.keys(set[1]))
-             if (question_key == this.qnum+1) { // If question matches current one, get answer choices
-               this.choices= set[1][question_key];
-               if (!found)
-                this.passage = set[0].replace(/\n/g,"\t\t     <br/>").slice(45,);               // Get the passage text
-               found=true;
-               this.pages =   set[2];               // Get the pages the text can be found on
+      for (let key of Object.keys(data["reading"])) {
+          if (this.choices!="A)B)C)D)") {
+            break;
+          }
+          this.passage=data["reading"][key][0];
+          this.pages=data["reading"][key][2];
+          for (let question_key of Object.keys(data["reading"][key][1])) {
+             if (question_key==this.qnum+1) {
+               this.choices=data["reading"][key][1][question_key];
              }
-               
-
+          }
       }
-      if (this.choices!="A)B)C)D)") console.log("TIME TO GO TO NEXT SECTION"); // Go to Writing section
-    },
-    checkAnswer() {
-      const fs = require("fs");
-      let data = JSON.parse(fs.readFileSync(`src/data/tests/${json[this.$route.params.id]["pdf"]}/test.json`).toString());
-      data = JSON.parse(data);
-      let answer_key = data["key"];
-      if (answer_key["reading"][this.qnum-1] == document.querySelector("input.choice:checked").getAttribute("data-letter")) {
-        this.feedbackText = "Correct";
-        document.getElementById("feedback-text").style.backgroundColor = "#8cc63f77";
-      }
-      else {
-        this.feedbackText = "Incorrect";
-        document.getElementById("feedback-text").style.backgroundColor = "#f36b5755";
+      this.passage=this.passage.replace(/\n{2}/g,"<br>")
+      if (this.choices!="A)B)C)D)") {
+          console.log("TIME TO GO TO NEXT SECTION");
       }
 
-      document.getElementById("controls").style.height = 0;
-      document.getElementById("results").style.height = "150px";
-    },
-    getNextQuestion() {
-      document.getElementById("controls").style.height = "unset";
-      document.getElementById("results").style.height = 0;
-      this.resetOtherChoices(0);
-      this.qnum++;
-      this.updateData();
     }
   },
   beforeDestroy() {
@@ -150,31 +105,8 @@ export default {
 }
 </script>
 
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  #overlay-full {
-    background-color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    left: 80px;
-    transition-duration: 1s;
-  }
-
-  #overlay-full > div {
-    width: 200px;
-    animation: fade-in 1s forwards;
-  }
-
-  @keyframes fade-in {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-
   h1 {
     font-size: 3rem;
     margin-top: 2rem;
@@ -243,28 +175,15 @@ export default {
   .controls {
     display: flex;
     flex-direction: row;
-    overflow: hidden;
+    padding-right: 20px;
   }
 
-  .controls button, .results button {
+  .controls button {
     border: #aaa 1px solid;
     border-radius: 5px;
     padding: 0.5rem 1rem;
     flex: 1 1;
     line-height: 2rem;
-  }
-
-  .results {
-    transition-duration: 0.5s;
-    text-align: center;
-    height: 0;
-    overflow: hidden;
-  }
-
-  #feedback-text {
-    padding: 1rem 0;
-    border-radius: 3px;
-    margin-top: 0;
   }
   
   /* Customize the label (the container) */
