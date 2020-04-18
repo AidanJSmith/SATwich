@@ -64,6 +64,9 @@ export default {
   },
   mounted() {
     document.getElementById("sidebar").classList.add("collapsed");
+  },
+  beforeDestroy() {
+    document.getElementById("sidebar").classList.remove("collapsed");
   }
 }
 </script>
