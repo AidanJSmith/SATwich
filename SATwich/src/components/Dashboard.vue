@@ -53,14 +53,14 @@
           <img src="../assets/img/snd.svg" alt="Sandwich" />
           <h3>Top Priority</h3>
         </div>
-        <p>It looks like you need to work most on your <b>Speed</b>! <b>Try creating timed profiles to test yourself.</b></p>
+        <p>It looks like you need to work most on your <b>Reading</b>! <b>Try creating timed profiles to test yourself.</b></p>
       </div>
       <div class="card">
         <div class="title-bar">
           <img src="../assets/img/snd.svg" alt="Sandwich" />
           <h3>Medium Priority</h3>
         </div>
-        <p>It looks like you need to work on your <b>Reading</b>! <b>Try creating reading test profiles to practice.</b></p>
+        <p>It looks like you need to work on your <b>Speed</b>! <b>Try creating reading test profiles to practice.</b></p>
       </div>
     </section>
   </div>

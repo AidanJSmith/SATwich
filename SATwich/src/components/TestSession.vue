@@ -101,15 +101,21 @@ export default {
       const fs = require("fs");
       let data = JSON.parse(fs.readFileSync(`src/data/tests/${json[this.$route.params.id]["pdf"]}/test.json`).toString());
       data = JSON.parse(data);
+      let found=false;
       let reading = data["reading"];           // Get reading section
       for (let key of Object.keys(reading)) {
+          if (found) break;
           let set = reading[key];              // Get set of questions, passage, etc
-          this.passage = set[0].replace(/\n/g,"\t\t     <br/>").slice(45,);               // Get the passage text
-          this.pages =   set[2];               // Get the pages the text can be found on
           for (let question_key of Object.keys(set[1]))
-             if (question_key == this.qnum+1)  // If question matches current one, get answer choices
+             if (question_key == this.qnum+1) { // If question matches current one, get answer choices
                this.choices= set[1][question_key];
-          if (this.choices!="A)B)C)D)") break; // Go to Writing section
+               if (!found)
+                this.passage = set[0].replace(/\n/g,"\t\t     <br/>").slice(45,);               // Get the passage text
+               found=true;
+               this.pages =   set[2];               // Get the pages the text can be found on
+             }
+               
+
       }
       if (this.choices!="A)B)C)D)") console.log("TIME TO GO TO NEXT SECTION"); // Go to Writing section
     },
