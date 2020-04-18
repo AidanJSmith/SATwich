@@ -73,6 +73,9 @@
     font-weight: 600;
     letter-spacing: 2px;
     text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     width: 100%;
   }
 

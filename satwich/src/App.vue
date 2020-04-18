@@ -52,6 +52,7 @@
     padding-top: 1rem;
     width: 300px;
     position: relative;
+    transition-duration: 0.3s;
   }
 
   #sidebar.collapsed {
