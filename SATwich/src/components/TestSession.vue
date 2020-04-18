@@ -19,7 +19,7 @@
         <div class="card">
           <h2>Passage</h2>
           <p>Show Original PDF Pages</p>
-          <p class="passage">{{passage}}</p>
+          <p class="passage" v-html="passage"></p>
         </div>
       </section>
       <section class="q-wrapper">
@@ -95,11 +95,12 @@ export default {
       let reading = data["reading"];           // Get reading section
       for (let key of Object.keys(reading)) {
           let set = reading[key];              // Get set of questions, passage, etc
-          this.passage = set[0];               // Get the passage text
+          this.passage = set[0].replace(/\n/g,"\t\t     <br/>").slice(45,);               // Get the passage text
           this.pages =   set[2];               // Get the pages the text can be found on
           for (let question_key of Object.keys(set[1]))
              if (question_key == this.qnum+1)  // If question matches current one, get answer choices
                this.choices= set[1][question_key];
+          if (this.choices!="A)B)C)D)") break; // Go to Writing section
       }
       if (this.choices!="A)B)C)D)") console.log("TIME TO GO TO NEXT SECTION"); // Go to Writing section
     },
@@ -108,7 +109,7 @@ export default {
       let data = JSON.parse(fs.readFileSync(`src/data/tests/${json[this.$route.params.id]["pdf"]}/test.json`).toString());
       data = JSON.parse(data);
       let answer_key = data["key"];
-      if (answer_key["reading"][this.qnum] == document.querySelector("input.choice:checked").getAttribute("data-letter")) {
+      if (answer_key["reading"][this.qnum-1] == document.querySelector("input.choice:checked").getAttribute("data-letter")) {
         this.feedbackText = "Correct";
         document.getElementById("feedback-text").style.backgroundColor = "#8cc63f77";
       }
