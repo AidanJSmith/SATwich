@@ -79,21 +79,18 @@ def parse_math(pdffile, start, end):
 				new_image.save(str(questionNumOfSection) + '.png')
 
 
-#	612,783
 	doc = fitz.open(pdffile)
 	zoom_x = 4.1666666666  # horizontal zoom
 	zomm_y = 4.1666666666  # vertical zoom
 	mat = fitz.Matrix(zoom_x, zomm_y)  # zoom factor 2 in each dimension
 	
-
 	for z in range(start, end+1):
 		page = doc.loadPage(z)
-		#pix.setResolution(2550,3263) 
 		pix = page.getPixmap(matrix = mat)  # use 'mat' instead of the identity matrix
-		
 		output = "page"+str(z)+".png"
 		pix.writePNG(output)
 		scanImg("page"+str(z)+".png",questionNumOfSection)
+		os.remove("page"+str(z)+".png")
 
 
 			
