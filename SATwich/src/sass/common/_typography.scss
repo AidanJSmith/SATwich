@@ -1,0 +1,12 @@
+/* Typography */
+
+@font-face {
+  font-family: 'nunitolight';
+  src: url('../assets/fonts/nunito-light-webfont.woff2') format('woff2'),
+        url('../assets/fonts/nunito-light-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@import url("https://use.typekit.net/eyp4egm.css");
+@import url('../assets/fonts/open-iconic.min.css');

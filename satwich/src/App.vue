@@ -21,70 +21,13 @@
 </script>
 
 <style>
-  @font-face {
-      font-family: 'nunitolight';
-      src: url('./assets/fonts/nunito-light-webfont.woff2') format('woff2'),
-           url('./assets/fonts/nunito-light-webfont.woff') format('woff');
-      font-weight: normal;
-      font-style: normal;
-  }
-  @import url("https://use.typekit.net/eyp4egm.css");
-  @import url('./assets/fonts/open-iconic.min.css');
+  /* Import SASS compiled styles */
+  @import './css/main.css';
 
   ::selection {
     background-color: #fdca92;
   }
 
-  body {
-    height: 100%;
-    margin: 0;
-  }
-
-  #main {
-    font-family: 'poiret-one', Avenir, Helvetica, Arial, sans-serif;
-    letter-spacing: 2px;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  #sidebar {
-    box-shadow: #0003 5px 0 10px;
-    padding-top: 1rem;
-    width: 300px;
-    position: relative;
-    transition-duration: 0.3s;
-  }
-
-  #sidebar.collapsed {
-    width: 90px;
-  }
-
-  #app {
-    padding-left: 80px;
-    padding-top: 1rem;
-    flex: 1 1;
-    height: 100vh;
-    overflow: scroll;
-  }
-  
-  #app::-webkit-scrollbar {
-    width: 12px;
-  }
-  
-  #app::-webkit-scrollbar-track {
-    background-color: #eee;
-    border-radius: 10px;
-  }
-  
-  #app::-webkit-scrollbar-thumb {
-    background-color: #ccc;
-    border-radius: 10px;
-  }
-  
   button {
     background: none;
     border: none;
@@ -105,44 +48,7 @@
     display: flex;
     flex-wrap: wrap;
   }
-
-  .card {
-    border: #aaa 1px solid;
-    border-radius: 10px;
-    padding: 5px 20px;
-    margin-right: 20px;
-    margin-bottom: 20px;
-  }
   
-  .card p {
-    font-family: 'nunitolight';
-    letter-spacing: 0;
-    line-height: 20px;
-  }
-
-  .card .title-bar {
-    display: flex;
-    height: 60px;
-  }
-
-  .card .title-bar > * {
-    margin: 0;
-    line-height: 60px;
-  }
-
-  .card .title-bar > h3 {
-    margin-left: 0.5rem;
-  }
-
-  .card .title-bar > img {
-    border: #ddd 1px solid;
-    border-radius: 50%;
-    padding: 2px;
-    margin: 7px;
-    margin-left: 0;
-    width: 40px;
-  }
-
   #overlay-full {
     background-color: #0004;
     display: none;
