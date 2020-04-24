@@ -114,20 +114,8 @@
     margin: 2rem;
   }
 
-  .oi {
-    color: #777;
-  }
-
-  .red {
-    color: #FF000A;
-  }
-
   .orange {
     color: #F36B57;
-  }
-
-  .gold {
-    color: #FFA000;
   }
 
   .footer {
@@ -185,7 +173,6 @@
   .collapsed .footer .group-right {
     display: flex;
   }
-
   .collapsed > * .hidden {
     display: none !important;
   }
