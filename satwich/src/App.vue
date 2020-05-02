@@ -20,7 +20,7 @@
   }
 </script>
 
-<style>
+<style lang="scss">
   /* Import SASS compiled styles */
   @import './css/main.css';
 
@@ -37,11 +37,11 @@
     font-size: 1.2rem;
     outline: none;
     transition-duration: 0.2s;
-  }
 
-  button:hover {
-    border-radius: 5px;
-    background-color: #eee;
+    &:hover {
+      border-radius: 5px;
+      background-color: #eee;
+    }
   }
 
   .flex-wrap {
@@ -59,44 +59,46 @@
     bottom: 0;
     right: 0;
     left: 0;
+    
+    > div {
+      background-color: #fff;
+      border-radius: 5px;
+      padding: 10px 30px;
+      width: 500px;
+    }
   }
   
-  #overlay-full > div {
-    background-color: #fff;
-    border-radius: 5px;
-    padding: 10px 30px;
-    width: 500px;
-  }
+  form {
+    .row {
+      display: flex;
+      font-family: 'nunitolight';
+      letter-spacing: 0;
+      line-height: 20px;
+      
+      > * {
+        flex: 1 1;
+      }
+    }
 
-  form .row {
-    display: flex;
-    font-family: 'nunitolight';
-    letter-spacing: 0;
-    line-height: 20px;
-  }
+    input, select {
+      border: #aaa 1px solid;
+      border-radius: 5px;
+      font-size: 18px;
+      margin-bottom: 15px;
+      padding: 5px 10px;
+      outline: none;
+    }
+    
+    button {
+      padding: 20px;
+    }
 
-  form .row > * {
-    flex: 1 1;
-  }
+    #time-field {
+      display: none;
+    }
 
-  form input, select {
-    border: #aaa 1px solid;
-    border-radius: 5px;
-    font-size: 18px;
-    margin-bottom: 15px;
-    padding: 5px 10px;
-    outline: none;
-  }
-
-  form button {
-    padding: 20px;
-  }
-
-  #time-field {
-    display: none;
-  }
-
-  #add-profile {
-    cursor: pointer;
+    #add-profile {
+      cursor: pointer;
+    }
   }
 </style>

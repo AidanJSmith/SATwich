@@ -90,7 +90,7 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="scss">
   h1 {
     font-size: 3rem;
     margin-top: 2rem;
@@ -101,35 +101,35 @@
     border-radius: 10px;
     width: 200px;
     position: relative;
-  }
 
-  .card > p {
-    margin-top: 10px;
-    margin-bottom: 20px;
-  }
+    > p {
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
 
-  .card .title-bar > h3 {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+    .title-bar > h3 {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-  .card:hover .overlay-actions {
-    display: flex;
-    animation: show-actions 0.2s forwards;
-  }
+    .overlay-actions {
+      background-color: #fdca92;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
 
-  .overlay-actions {
-    background-color: #fdca92;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    &:hover .overlay-actions {
+      display: flex;
+      animation: show-actions 0.2s forwards;
+    }
   }
   
   .text-small {

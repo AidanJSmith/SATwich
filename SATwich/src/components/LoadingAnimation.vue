@@ -46,19 +46,19 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .snd {
     width: 200px;
     transform: translateY(-100px);
     text-align: center;
-  }
 
-  .snd #Animated g {
-    opacity: 0;
-  }
+    #Animated g {
+      opacity: 0;
+    }
 
-  .snd h2 {
-    animation: opacity-flash 4s infinite forwards;
+    h2 {
+      animation: opacity-flash 4s infinite forwards;
+    }
   }
 
   @keyframes opacity-flash {

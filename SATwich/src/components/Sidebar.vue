@@ -66,7 +66,7 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .nav-button {
     padding: 1rem;
     line-height: 1rem;
@@ -84,34 +84,34 @@
     margin-right: 1rem;
     width: 30px;
     vertical-align: bottom;
-  }
 
-  .nav-icon > * {
-    display: block;
-    margin: auto;
-    width: 20px;
-  }
+    > * {
+      display: block;
+      margin: auto;
+      width: 20px;
+    }
 
-  .nav-icon > img {
-    width: 30px;
+    > img {
+      width: 30px;
+    }
   }
 
   #nav {
     padding-left: 0.5rem;
     padding-right: 2rem;
-  }
 
-  #nav .nav-group {
-    list-style: none;
-    padding-left: 1rem;
-    margin-bottom: 1rem;
-  }
+    .nav-group {
+      list-style: none;
+      padding-left: 1rem;
+      margin-bottom: 1rem;
+    }
 
-  #nav hr {
-    border-style:solid;
-    color:#ddd; 
-    width: 80%;
-    margin: 2rem;
+    hr {
+      border-style:solid;
+      color:#ddd; 
+      width: 80%;
+      margin: 2rem;
+    }
   }
 
   .orange {
@@ -129,51 +129,55 @@
     font-size: 16px;
     display: flex;
     align-items: center;
+
+    .group-right {
+      font-size: 30px;
+      flex: 1 1;
+      text-align: right;
+
+      button {
+        margin-left: 0.5rem;
+        padding: 0.5rem;
+        line-height: 10px;
+      }
+    }
   }
 
-  .footer .group-right {
-    font-size: 30px;
-    flex: 1 1;
-    text-align: right;
-  }
+  .collapsed {
+    #nav {
+      padding: 1rem;
+    }
 
-  .footer .group-right button {
-    margin-left: 0.5rem;
-    padding: 0.5rem;
-    line-height: 10px;
-  }
+    #nav .nav-group {
+      padding: 0;
+    }
+    
+    .nav-button {
+      display: flex;
+      justify-content: center;
+      padding: 1rem 0.5rem !important;
+      width: 100%;
+    }
 
-  .collapsed #nav {
-    padding: 1rem;
-  }
+    .nav-icon {
+      margin: 0;
+    }
 
-  .collapsed #nav .nav-group {
-    padding: 0;
-  }
-  .collapsed .nav-button {
-    display: flex;
-    justify-content: center;
-    padding: 1rem 0.5rem !important;
-    width: 100%;
-  }
+    hr {
+      width: 100%;
+      margin: auto;
+    }
 
-  .collapsed .nav-icon {
-    margin: 0;
-  }
+    .footer {
+      padding-left: 2px;
+    }
 
-  #sidebar.collapsed hr {
-    width: 100%;
-    margin: auto;
-  }
-
-  .collapsed .footer {
-    padding-left: 2px;
-  }
-
-  .collapsed .footer .group-right {
-    display: flex;
-  }
-  .collapsed > * .hidden {
-    display: none !important;
+    .footer .group-right {
+      display: flex;
+    }
+    
+    > * .hidden {
+      display: none !important;
+    }
   }
 </style>
